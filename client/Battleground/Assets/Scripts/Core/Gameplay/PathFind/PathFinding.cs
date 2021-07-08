@@ -1,17 +1,17 @@
 ﻿/**
  * Provide simple path-finding algorithm with tile prices support.
  * Based on code and tutorial by Sebastian Lague (https://www.youtube.com/channel/UCmtyQOKKmrMVaKuRXz02jbQ).
- *   
+ *
  * Author: Ronen Ness.
- * Since: 2016. 
+ * Since: 2016.
 */
 using System.Collections.Generic;
 
-namespace NesScripts.Controls.PathFind
+namespace PathFind
 {
     /// <summary>
     /// Main class to find the best path to walk from A to B.
-    /// 
+    ///
     /// Usage example:
     /// Grid grid = new Grid(width, height, tiles_costs);
     /// List<Point> path = Pathfinding.FindPath(grid, from, to);
@@ -151,7 +151,7 @@ namespace NesScripts.Controls.PathFind
         {
             int dstX = System.Math.Abs(nodeA.gridX - nodeB.gridX);
             int dstY = System.Math.Abs(nodeA.gridY - nodeB.gridY);
-            return (dstX > dstY) ? 
+            return (dstX > dstY) ?
                 14 * dstY + 10 * (dstX - dstY) :
                 14 * dstX + 10 * (dstY - dstX);
         }

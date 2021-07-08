@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Tilemaps;
 
 public class BattleScene : MonoBehaviour
 {
@@ -8,12 +9,16 @@ public class BattleScene : MonoBehaviour
 
     // State
     public GameState gameState;
+    public Field field;
     public bool isLooking;
 
     // Graphical Elements
     public GameObject nextPhaseButton, inventoryButton;
     public PhaseIndicator phaseIndicator;
     public TurnText turnText;
+
+    // Tilemaps
+    public Tilemap[] nonCollidingTilemaps, collidingTilemaps;
 
     // TODO: has to be modified once starting menu's have been done
     void Start() {
@@ -30,6 +35,8 @@ public class BattleScene : MonoBehaviour
             new Potion[]{new Potion(Potion.HEAL), new Potion(Potion.HEAL), new Potion(Potion.STRENGTH), null, null}
         );
         this.gameState = new GameState(new Player[]{player1, player2}, 0);
+
+        this.field = new Field(nonCollidingTilemaps, collidingTilemaps);
         // } end
 
 

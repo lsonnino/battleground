@@ -1,12 +1,12 @@
 ﻿/**
  * Represent a point on the path-finding grid.
  * Based on code and tutorial by Sebastian Lague (https://www.youtube.com/channel/UCmtyQOKKmrMVaKuRXz02jbQ).
- *   
+ *
  * Author: Ronen Ness.
- * Since: 2016. 
+ * Since: 2016.
 */
 
-namespace NesScripts.Controls.PathFind
+namespace PathFind
 {
     /// <summary>
     /// A 2d point on the grid

@@ -1,13 +1,13 @@
 ﻿/**
  * Represent a grid of nodes we can search paths on.
  * Based on code and tutorial by Sebastian Lague (https://www.youtube.com/channel/UCmtyQOKKmrMVaKuRXz02jbQ).
- *   
+ *
  * Author: Ronen Ness.
- * Since: 2016. 
+ * Since: 2016.
 */
 using System.Collections.Generic;
 
-namespace NesScripts.Controls.PathFind
+namespace PathFind
 {
     /// <summary>
     /// A 2D grid of nodes we use to find path.
@@ -123,7 +123,7 @@ namespace NesScripts.Controls.PathFind
 				{
 					nodes[x, y].Update(walkable_tiles[x, y] ? 1.0f : 0.0f, x, y);
 				}
-			} 
+			}
 		}
 
         /// <summary>

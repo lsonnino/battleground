@@ -4,7 +4,7 @@ public class Warrior
 {
     // Available Warriors
     public static readonly Warrior DINO = new Warrior("0", "Dino", 5, 3, 2);
-    
+
     public static readonly Warrior[] WARRIORS = new Warrior[]{DINO};
 
 
@@ -18,6 +18,8 @@ public class Warrior
     private int initAttack {get;}
 
     // Current stat and modifiers
+    public int x {get; set;}
+    public int y {get; set;}
     private int hp {get; set;}
     public int walkingDistanceModifier {get; set;}
     public int attackModifier {get; set;}
@@ -45,6 +47,9 @@ public class Warrior
         this.alive = true;
 
         this.potions = new ArrayList();
+
+        this.x = -1;
+        this.y = -1;
     }
 
     public int GetAttack() {
@@ -89,7 +94,12 @@ public class Warrior
             if (!potion.EndTurn(this)) {
                 // The effect of the potion vanished
                 this.potions.Remove(potion);
+                i--; // Do not skip the next one
             }
         }
+    }
+
+    public bool IsPlaced() {
+        return this.x >= 0 && this.y >= 0;
     }
 }

@@ -1,15 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class MapEvents : MonoBehaviour
 {
     public BattleScene gameMaster;
     public GameObject field;
 
+    // TODO: remove "once"
+    public bool once = false;
+
+    // Pads
+    public Tilemap padsTilemap;
+    public Tile padTileModel;
+    public List<Vector3Int> padTiles;
+
+    // Zoom state
     public const float mouseScrollSensitivity = 0.1f;
     private float currentScroll;
 
+    // Drag state
     private bool dragging;
     private float dragX, dragY;
 
@@ -18,9 +29,21 @@ public class MapEvents : MonoBehaviour
         dragging = false;
     }
     void Update() {
+        // TODO: remove "once"
+        if (!once) {
+            once = true;
+            Warrior dino = new Warrior(Warrior.DINO);
+            dino.x = 0;
+            dino.y = 0;
+            ShowPositions(dino);
+        }
+
         if (!gameMaster.isLooking) {
             return;
         }
+
+
+        // === Handle zoom =========================
 
         float scrollDelta = Input.mouseScrollDelta.y * mouseScrollSensitivity;
         if (Mathf.Abs(scrollDelta) >= 0.1f) {
@@ -45,6 +68,9 @@ public class MapEvents : MonoBehaviour
             return;
         }
 
+
+        // === Handle drag =========================
+
         Vector3 mousePos = Input.mousePosition;
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
@@ -59,6 +85,36 @@ public class MapEvents : MonoBehaviour
 
         if (dragging) {
             field.transform.position = new Vector3(mousePos.x - dragX, mousePos.y - dragY, field.transform.position.z);
+        }
+    }
+
+    public void ShowPositions(Warrior warrior) {
+        int wd = warrior.GetWalkingDistance();
+        int x = warrior.x; int y = warrior.y;
+
+        padsTilemap.SetTile(new Vector3Int(x, y, 0), padTileModel);
+
+        for (int dx=-wd ; dx <= wd ; dx++) {
+            for (int dy=-wd + Mathf.Abs(dx) ; dy <= wd - Mathf.Abs(dx) ; dy++) {
+                if (dx == 0 && dy == 0) {
+                    continue;
+                }
+
+                // TODO: check if there is another player there
+
+                List<PathFind.Point> path = gameMaster.field.GetPath(x, y, x + dx, y + dy);
+                if (path != null && path.Count > 0 && path.Count <= wd) {
+                    Vector3Int pos = new Vector3Int(x + dx, y + dy, 0);
+                    padsTilemap.SetTile(pos, padTileModel);
+                    padTiles.Add(pos);
+                }
+            }
+        }
+    }
+    public void RemovePads() {
+        while (padTiles.Count > 0) {
+            padsTilemap.SetTile(padTiles[0], null);
+            padTiles.RemoveAt(0);
         }
     }
 }
