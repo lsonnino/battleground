@@ -19,23 +19,15 @@ public class BattleScene : MonoBehaviour
     void Start() {
         // TODO: Only keep this part until the menu's are not complete
         // begin {
-        Warrior dino = new Warrior("0", "Dino", 5, 3, 2);
-
-        Potion heal = new Potion("0", "Heal Potion", Potion.PotionType.HP, 0, 5);
-        Potion strength = new Potion("1", "Strength Potion", Potion.PotionType.ATTACK, 5, 2);
-        Potion weakness = new Potion("2", "Weakness Potion", Potion.PotionType.ATTACK, 5, -2);
-        Potion runner = new Potion("3", "Runner Potion", Potion.PotionType.WALKING_DISTANCE, 5, 2);
-        Potion aging = new Potion("4", "Aging Potion", Potion.PotionType.WALKING_DISTANCE, 5, -2);
-
         Player player1 = new Player(
             "0", "Player 1",
-            new Warrior[]{new Warrior(dino), new Warrior(dino), null, null, null},
-            new Potion[]{new Potion(heal), new Potion(strength), new Potion(weakness), new Potion(runner), new Potion(aging)}
+            new Warrior[]{new Warrior(Warrior.DINO), new Warrior(Warrior.DINO), null, null, null},
+            new Potion[]{new Potion(Potion.HEAL), new Potion(Potion.STRENGTH), new Potion(Potion.WEAKNESS), new Potion(Potion.RUNNER), new Potion(Potion.AGING)}
         );
         Player player2 = new Player(
-            "0", "Player 1",
-            new Warrior[]{new Warrior(dino), new Warrior(dino), null, null, null},
-            new Potion[]{new Potion(heal), new Potion(heal), new Potion(strength), null, null}
+            "1", "Player 2",
+            new Warrior[]{new Warrior(Warrior.DINO), new Warrior(Warrior.DINO), null, null, null},
+            new Potion[]{new Potion(Potion.HEAL), new Potion(Potion.HEAL), new Potion(Potion.STRENGTH), null, null}
         );
         this.gameState = new GameState(new Player[]{player1, player2}, 0);
         // } end

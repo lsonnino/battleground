@@ -2,6 +2,12 @@
 
 public class Warrior
 {
+    // Available Warriors
+    public static readonly Warrior DINO = new Warrior("0", "Dino", 5, 3, 2);
+    
+    public static readonly Warrior[] WARRIORS = new Warrior[]{DINO};
+
+
     // Warrior ID
     public string id {get;}
     public string name {get;}
