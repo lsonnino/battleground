@@ -69,5 +69,10 @@ public class BattleScene : MonoBehaviour
         bool activeButtons = !isLooking && (debug || gameState.IsThisPlayerTurn());
         inventoryButton.SetActive(activeButtons);
         nextPhaseButton.SetActive(activeButtons);
+
+        // Do not permit to use inventory during summoning phase
+        if (gameState.GetPhase() == GameState.Phase.SUMMON) {
+            inventoryButton.SetActive(false);
+        }
     }
 }

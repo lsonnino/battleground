@@ -9,10 +9,11 @@ public class EventsHandler : MonoBehaviour
     public BattleScene gameMaster;
     public PlayableCharacters playableCharacters;
     public MapEvents map;
-    public GameObject selectorPane;
+    public GameObject warriorSelectorPane, itemSelectorPane;
     public Sprite transparentImage;
     public GameObject warriorPlacer;
     public WarriorStatPanel statPanel;
+    public Sprite potionSprite;
 
     // Internal state to keep track of events
     private int turn;
@@ -20,7 +21,9 @@ public class EventsHandler : MonoBehaviour
 
     // Internal state to handle events
     public Warrior selectedWarrior;
+    public int selectedItemIndex;
     private List<WarriorGUI> warriorsGUI;
+    private int openSelector;
 
     void Start() {
         HideWarriorSelector();
@@ -28,7 +31,9 @@ public class EventsHandler : MonoBehaviour
         this.turn = -1;
 
         this.selectedWarrior = null;
+        this.selectedItemIndex = -1;
         this.warriorsGUI = new List<WarriorGUI>();
+        this.openSelector = 0;
     }
     void Update() {
         // === Check for events =================
@@ -78,13 +83,21 @@ public class EventsHandler : MonoBehaviour
                 this.gameMaster.NextPhase();
             }
         }
-        // Move a warrior
-        else if (this.phase == GameState.Phase.MOVE_1 || this.phase == GameState.Phase.MOVE_2) {
-            HandleMovement(selectedTile);
+        else {
+            // Use item
+            if (this.selectedItemIndex >= 0) {
+                HandleItem(selectedTile);
+            }
+            // Move a warrior
+            else if (this.phase == GameState.Phase.MOVE_1 || this.phase == GameState.Phase.MOVE_2) {
+                HandleMovement(selectedTile);
+            }
+            // Attack a warrior
+            else if (this.phase == GameState.Phase.ATTACK) {
+                HandleAttack(selectedTile);
+            }
         }
-        else if (this.phase == GameState.Phase.ATTACK) {
-            HandleAttack(selectedTile);
-        }
+
     }
 
     private void NewTurnEvent(int newTurn) {
@@ -135,8 +148,38 @@ public class EventsHandler : MonoBehaviour
         return null;
     }
 
+    private void HideSelectors() {
+        switch(this.openSelector) {
+            case 1:
+                HideWarriorSelector();
+                break;
+            case 2:
+                HideItemSelector();
+                break;
+            default:
+                break;
+        }
+    }
+    public void SelectorPaneEntrySelected(int index) {
+        switch(this.openSelector) {
+            case 1:
+                if (index < 0 || index >= Player.MAX_WARRIORS) { return; }
+                this.selectedWarrior = gameMaster.gameState.GetCurrentPlayer().GetWarrior(index);
+                break;
+            case 2:
+                if (index < 0 || index >= Player.MAX_ITEMS) { return; }
+                this.selectedItemIndex = index;
+                break;
+            default:
+                break;
+        }
+
+    }
+
     // === SUMMON ============================
     private void SelectWarrior() {
+        HideSelectors();
+
         for (int i=0 ; i < Player.MAX_WARRIORS ; i++) {
             Warrior warrior = gameMaster.gameState.GetCurrentPlayer().GetWarrior(i);
 
@@ -149,25 +192,22 @@ public class EventsHandler : MonoBehaviour
             int index = Warrior.GetWarriorIndex(warrior);
             if (index < 0) { continue; }
 
-            Image img = selectorPane.transform.GetChild(i).GetComponent<Image>();
+            Image img = warriorSelectorPane.transform.GetChild(i).GetComponent<Image>();
             img.sprite = playableCharacters.GetWarriorImage(index);
         }
 
-        selectorPane.SetActive(true);
+        warriorSelectorPane.SetActive(true);
+        this.openSelector = 1;
     }
     private void HideWarriorSelector() {
         for (int i=0 ; i < Player.MAX_WARRIORS ; i++) {
-            Image img = selectorPane.transform.GetChild(i).GetComponent<Image>();
+            Image img = warriorSelectorPane.transform.GetChild(i).GetComponent<Image>();
             img.sprite = transparentImage;
         }
 
-        this.selectorPane.SetActive(false);
+        this.warriorSelectorPane.SetActive(false);
         this.selectedWarrior = null;
-    }
-    public void SelectorPaneEntrySelected(int index) {
-        if (index < 0 || index >= Player.MAX_WARRIORS) { return; }
-
-        this.selectedWarrior = gameMaster.gameState.GetCurrentPlayer().GetWarrior(index);
+        this.openSelector = 0;
     }
 
     public void Summon(Warrior warrior, int toX, int toY, bool isThisPlayer) {
@@ -320,5 +360,71 @@ public class EventsHandler : MonoBehaviour
             // Remove him from the list
             warriorsGUI.Remove(gui);
         }
+    }
+
+    // === ITEMS ============================
+    public void OnInventoryOpen() {
+        SelectItem();
+    }
+    private void SelectItem() {
+        HideSelectors();
+
+        for (int i=0 ; i < Player.MAX_ITEMS ; i++) {
+            Item item = gameMaster.gameState.GetCurrentPlayer().GetItem(i);
+
+            // No warriors or already placed warrior
+            if (item == null) {
+                continue;
+            }
+
+            Image img = itemSelectorPane.transform.GetChild(i).GetComponent<Image>();
+            if (item.GetType() == typeof(Potion)) {
+                img.sprite = potionSprite;
+            }
+            // NOTE: only potions are supported for now
+        }
+
+        itemSelectorPane.SetActive(true);
+
+        this.openSelector = 2;
+    }
+    private void HideItemSelector() {
+        for (int i=0 ; i < Player.MAX_ITEMS ; i++) {
+            Image img = itemSelectorPane.transform.GetChild(i).GetComponent<Image>();
+            img.sprite = transparentImage;
+        }
+
+        this.itemSelectorPane.SetActive(false);
+        this.selectedWarrior = null;
+
+        this.openSelector = 0;
+    }
+    private void HandleItem(Vector3Int selectedTile) {
+        this.map.RemovePads();
+
+        // Select the attacker
+        Warrior hover = this.gameMaster.gameState.GetCurrentPlayer().GetWarriorAt(selectedTile.x, selectedTile.y);
+        if (hover != null) {
+            this.map.AddPad(selectedTile, true);
+
+            // Select it
+            if (Input.GetMouseButtonDown(0)) {
+                Item selectedItem = this.gameMaster.gameState.GetCurrentPlayer().GetItem(this.selectedItemIndex);
+                if (selectedItem.GetType() == typeof(Potion)) {
+                    UsePotion(this.selectedItemIndex, hover);
+                    HideItemSelector();
+                    this.selectedItemIndex = -1;
+                }
+            }
+        }
+        else if (Input.GetMouseButtonDown(0)) {
+            HideItemSelector();
+            this.selectedItemIndex = -1;
+        }
+    }
+
+    public void UsePotion(int index, Warrior warrior) {
+        warrior.ApplyPotion((Potion) this.gameMaster.gameState.GetCurrentPlayer().GetItem(index));
+        this.gameMaster.gameState.GetCurrentPlayer().RemoveItem(index);
     }
 }

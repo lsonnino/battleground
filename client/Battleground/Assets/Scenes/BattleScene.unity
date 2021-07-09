@@ -1396,11 +1396,14 @@ MonoBehaviour:
   gameMaster: {fileID: 174390995}
   playableCharacters: {fileID: 141923989}
   map: {fileID: 1733150172}
-  selectorPane: {fileID: 290810465}
+  warriorSelectorPane: {fileID: 290810465}
+  itemSelectorPane: {fileID: 290810465}
   transparentImage: {fileID: 21300000, guid: 1f7d25e502f2144509397ed26df86d0c, type: 3}
   warriorPlacer: {fileID: 3749929317463399464, guid: 517abcf8236e84dda98bb7f3b2539f73,
     type: 3}
   statPanel: {fileID: 1063224130}
+  potionSprite: {fileID: 21300000, guid: 979bc9d32209f4b74aa957cffab551d9, type: 3}
+  selectedItemIndex: 0
 --- !u!1 &666624701
 GameObject:
   m_ObjectHideFlags: 0
@@ -6843,7 +6846,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1274126504}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 532846339}
+        m_MethodName: OnInventoryOpen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1274126504
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -92,4 +92,14 @@
                 break;
         }
     }
+
+    public static int GetPotionIndex(Potion potion) {
+        for (int i=0 ; i < POTIONS.Length ; i++) {
+            if (POTIONS[i].id.Equals(potion.id)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
 }

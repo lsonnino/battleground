@@ -32,4 +32,7 @@
     public Item GetItem(int index) {
         return this.items[index];
     }
+    public void RemoveItem(int index) {
+        this.items[index] = null;
+    }
 }
