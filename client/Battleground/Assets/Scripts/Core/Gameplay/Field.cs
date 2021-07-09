@@ -5,11 +5,15 @@ using UnityEngine.Tilemaps;
 
 public class Field
 {
+    // Intrinsic parameters of the field
     private int width, height;
     private int offsetX, offsetY;
     private bool[,] walkable;
 
     private PathFind.Grid pathFind;
+
+    // Field state
+    private bool[,] walkableState;
 
     public Field(Tilemap[] nonCollidingTilemaps, Tilemap[] collidingTilemaps) {
         // Get offset and size
@@ -55,29 +59,11 @@ public class Field
             AddCollisions(collidingTilemaps[i], true);
         }
 
+        walkableState = (bool[,]) walkable.Clone();
+
         // Set pathfinder instance
-        pathFind = new PathFind.Grid(walkable);
+        pathFind = new PathFind.Grid(walkableState);
     }
-
-    public bool IsInBounds(int x, int y) {
-        return !(x - offsetX < 0 || y - offsetY < 0 ||
-            x - offsetX >= width || y - offsetY >= height);
-    }
-    /*
-     * Get the path from one point to another. The returning list is empty
-     * if there is none
-     */
-    public List<PathFind.Point> GetPath(int fromX, int fromY, int toX, int toY) {
-        if (!IsInBounds(fromX, fromY) || !IsInBounds(toX, toY)) {
-            return null;
-        }
-
-        PathFind.Point _from = new PathFind.Point(fromX - offsetX, fromY - offsetY);
-        PathFind.Point _to = new PathFind.Point(toX - offsetX, toY - offsetY);
-
-        return PathFind.Pathfinding.FindPath(pathFind, _from, _to, PathFind.Pathfinding.DistanceType.Manhattan);
-    }
-
     /*
      * Update walkable by taking into account a new Tilemap
      * NOTE: non collision tilemaps must be all taken into account before the collision
@@ -103,5 +89,57 @@ public class Field
                 }
             }
         }
+    }
+
+    /*
+     * Move a warrior to a given position or place it for the first time at a
+     * given position
+     */
+    public void MoveWarrior(Warrior warrior, int x, int y) {
+        // Reset where the warrior was
+        if (warrior.IsPlaced()) {
+            walkableState[warrior.GetX() - offsetX, warrior.GetY() - offsetY] =
+                walkable[warrior.GetX() - offsetX, warrior.GetY() - offsetY];
+        }
+        else {
+            // The warrior is beeing summoned: cannot attack
+            warrior.attacked = true;
+        }
+
+        // Set the warrior to the new position
+        warrior.Place(x ,y);
+        warrior.moved = true;
+
+        // Update the walkable state for path finding
+        walkableState[x - offsetX, y - offsetY] = false;
+        pathFind.UpdateGrid(walkableState);
+    }
+
+    /*
+     * Get if a given coordinate is within the bounds of the map
+     */
+    public bool IsInBounds(int x, int y) {
+        return !(x - offsetX < 0 || y - offsetY < 0 ||
+            x - offsetX >= width || y - offsetY >= height);
+    }
+    public bool IsWalkable(int x, int y) {
+        if (!IsInBounds(x, y)) { return false; }
+        else {
+            return this.walkableState[x - offsetX, y - offsetY];
+        }
+    }
+    /*
+     * Get the path from one point to another. The returning list is empty
+     * if there is none
+     */
+    public List<PathFind.Point> GetPath(int fromX, int fromY, int toX, int toY) {
+        if (!IsInBounds(fromX, fromY) || !IsInBounds(toX, toY)) {
+            return null;
+        }
+
+        PathFind.Point _from = new PathFind.Point(fromX - offsetX, fromY - offsetY);
+        PathFind.Point _to = new PathFind.Point(toX - offsetX, toY - offsetY);
+
+        return PathFind.Pathfinding.FindPath(pathFind, _from, _to, PathFind.Pathfinding.DistanceType.Manhattan);
     }
 }

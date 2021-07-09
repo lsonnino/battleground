@@ -1,6 +1,7 @@
 ﻿public class GameState
 {
     public enum Phase {
+        NONE, // Not a valid game phase, just to ease programming
         MOVE_1,
         ATTACK,
         MOVE_2,
@@ -12,13 +13,15 @@
     private Phase currentPhase;
     private Player[] players;
     private int thisPlayer;
+    private int start;
 
     public GameState(Player[] players, int thisPlayer) {
         this.players = players;
         this.numberOfPlayers = players.Length;
         this.playerTurn = 0;
-        this.currentPhase = Phase.MOVE_1;
+        this.currentPhase = Phase.SUMMON; // First turn of each player is just a summon
         this.thisPlayer = thisPlayer;
+        this.start = numberOfPlayers - 1;
     }
 
     public void NextPhase() {
@@ -33,7 +36,12 @@
                 this.currentPhase = Phase.SUMMON;
                 break;
             case Phase.SUMMON:
-                this.currentPhase = Phase.MOVE_1;
+                if (this.start == 0) {
+                    this.currentPhase = Phase.MOVE_1;
+                }
+                else { // First turn of each player is just a summon
+                    this.start--;
+                }
                 EndTurn();
                 break;
             default:
@@ -41,10 +49,20 @@
                 break;
         }
     }
+    public int GetPlayerTurn() {
+        return this.playerTurn;
+    }
     public Phase GetPhase() {
         return this.currentPhase;
     }
     private void EndTurn() {
+        for (int j=0 ; j < Player.MAX_WARRIORS ; j++) {
+            Warrior w = this.players[this.playerTurn].GetWarrior(j);
+            if (w != null) {
+                w.EndTurn();
+            }
+        }
+
         this.playerTurn = (this.playerTurn + 1) % this.numberOfPlayers;
     }
 

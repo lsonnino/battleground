@@ -11,6 +11,7 @@ public class BattleScene : MonoBehaviour
     public GameState gameState;
     public Field field;
     public bool isLooking;
+    public bool start;
 
     // Graphical Elements
     public GameObject nextPhaseButton, inventoryButton;
@@ -26,12 +27,12 @@ public class BattleScene : MonoBehaviour
         // begin {
         Player player1 = new Player(
             "0", "Player 1",
-            new Warrior[]{new Warrior(Warrior.DINO), new Warrior(Warrior.DINO), null, null, null},
+            new Warrior[]{new Warrior(Warrior.GLADIATOR), new Warrior(Warrior.GLADIATOR), null, null, null},
             new Potion[]{new Potion(Potion.HEAL), new Potion(Potion.STRENGTH), new Potion(Potion.WEAKNESS), new Potion(Potion.RUNNER), new Potion(Potion.AGING)}
         );
         Player player2 = new Player(
             "1", "Player 2",
-            new Warrior[]{new Warrior(Warrior.DINO), new Warrior(Warrior.DINO), null, null, null},
+            new Warrior[]{new Warrior(Warrior.GLADIATOR), new Warrior(Warrior.GLADIATOR), null, null, null},
             new Potion[]{new Potion(Potion.HEAL), new Potion(Potion.HEAL), new Potion(Potion.STRENGTH), null, null}
         );
         this.gameState = new GameState(new Player[]{player1, player2}, 0);

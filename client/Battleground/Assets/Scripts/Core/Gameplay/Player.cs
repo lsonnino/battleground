@@ -16,10 +16,20 @@
         this.items = items;
     }
 
-    public void RemoveWarrior(int index) {
-        this.warriors[index] = null;
+    public Warrior GetWarrior(int index) {
+        return this.warriors[index];
     }
-    public void RemoveItem(int index) {
-        this.items[index] = null;
+    public Warrior GetWarriorAt(int x, int y) {
+        for (int i=0 ; i < warriors.Length ; i++) {
+            if (warriors[i] != null && warriors[i].IsPlaced() && warriors[i].GetX() == x && warriors[i].GetY() == y) {
+                return warriors[i];
+            }
+        }
+
+        return null;
+    }
+
+    public Item GetItem(int index) {
+        return this.items[index];
     }
 }
