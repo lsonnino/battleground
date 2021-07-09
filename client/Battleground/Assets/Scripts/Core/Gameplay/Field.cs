@@ -140,6 +140,14 @@ public class Field
         PathFind.Point _from = new PathFind.Point(fromX - offsetX, fromY - offsetY);
         PathFind.Point _to = new PathFind.Point(toX - offsetX, toY - offsetY);
 
-        return PathFind.Pathfinding.FindPath(pathFind, _from, _to, PathFind.Pathfinding.DistanceType.Manhattan);
+        List<PathFind.Point> path = PathFind.Pathfinding.FindPath(pathFind, _from, _to, PathFind.Pathfinding.DistanceType.Manhattan);
+
+        List<PathFind.Point> convertedPath = new List<PathFind.Point>();
+        // Convert path to world coordinates
+        for (int i=0 ; i < path.Count ; i++) {
+            convertedPath.Add(new PathFind.Point(path[i].x + offsetX, path[i].y + offsetY));
+        }
+
+        return convertedPath;
     }
 }

@@ -66,6 +66,12 @@
         this.playerTurn = (this.playerTurn + 1) % this.numberOfPlayers;
     }
 
+    public int GetNumberOfPlayers() {
+        return this.numberOfPlayers;
+    }
+    public Player GetPlayer(int index) {
+        return this.players[index];
+    }
     public Player GetCurrentPlayer() {
         return this.players[this.playerTurn];
     }

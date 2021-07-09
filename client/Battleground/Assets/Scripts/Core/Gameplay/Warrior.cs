@@ -72,6 +72,12 @@ public class Warrior
         this.attacked = false;
     }
 
+    public int GetMaxHP() {
+        return this.maxHP;
+    }
+    public int GetHP() {
+        return this.hp;
+    }
     public int GetAttack() {
         int attack = this.initAttack + this.attackModifier;
         if (attack < 0) {
@@ -89,6 +95,9 @@ public class Warrior
         return wd;
     }
 
+    public bool IsAlive() {
+        return this.alive;
+    }
     public void Heal(int amount) {
         this.hp += amount;
         if (this.hp > this.maxHP) {
