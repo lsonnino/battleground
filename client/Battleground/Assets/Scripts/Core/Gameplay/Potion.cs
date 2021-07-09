@@ -17,9 +17,9 @@
     }
 
     // Item effect
-    private PotionType type {get;}
-    private int length {get;}
-    private int amount {get;}
+    public PotionType type {get;}
+    public int length {get;}
+    public int amount {get;}
 
     // Status
     private int lengthCountdown {get; set;} // How much time the potion has been around

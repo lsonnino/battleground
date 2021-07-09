@@ -13,6 +13,7 @@ public class EventsHandler : MonoBehaviour
     public Sprite transparentImage;
     public GameObject warriorPlacer;
     public WarriorStatPanel statPanel;
+    public PotionStatPanel potionStatPanel;
     public Sprite potionSprite;
 
     // Internal state to keep track of events
@@ -62,6 +63,23 @@ public class EventsHandler : MonoBehaviour
 
         if (!this.gameMaster.gameState.IsThisPlayerTurn()) {
             return;
+        }
+
+        // Do not register clicks on the open selector (except by the selector itself)
+        RectTransform rectPane = null;
+        switch (openSelector) {
+            case 1: // Warrior selector
+                if (warriorSelectorPane.GetComponent<SelectorPaneEntry>().ContainsMouse()) {
+                    return;
+                }
+                break;
+            case 2: // Item selector
+                if (itemSelectorPane.GetComponent<SelectorPaneEntry>().ContainsMouse()) {
+                    return;
+                }
+                break;
+            default:
+                break;
         }
 
         // Summon a warrior
@@ -169,6 +187,12 @@ public class EventsHandler : MonoBehaviour
             case 2:
                 if (index < 0 || index >= Player.MAX_ITEMS) { return; }
                 this.selectedItemIndex = index;
+
+                Item item = this.gameMaster.gameState.GetCurrentPlayer().GetItem(index);
+                if (item.GetType() == typeof(Potion)) {
+                    potionStatPanel.Show((Potion) item);
+                }
+
                 break;
             default:
                 break;
@@ -413,6 +437,7 @@ public class EventsHandler : MonoBehaviour
                 if (selectedItem.GetType() == typeof(Potion)) {
                     UsePotion(this.selectedItemIndex, hover);
                     HideItemSelector();
+                    potionStatPanel.Hide();
                     this.selectedItemIndex = -1;
                 }
             }

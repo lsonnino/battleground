@@ -17,4 +17,11 @@ public class SelectorPaneEntry : MonoBehaviour
         x = x * this.transform.childCount;
         handler.SelectorPaneEntrySelected(((int) x));
     }
+
+    public bool ContainsMouse() {
+        Vector2 localpoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(rectTransform, Input.mousePosition, GetComponentInParent<Canvas>().worldCamera, out localpoint);
+
+        return rectTransform.rect.Contains(localpoint);
+    }
 }
