@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 
+[System.Serializable]
 public class Warrior
 {
     // Available Warriors

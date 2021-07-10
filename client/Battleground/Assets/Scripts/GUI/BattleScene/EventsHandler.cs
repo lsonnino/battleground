@@ -448,6 +448,7 @@ public class EventsHandler : MonoBehaviour
                     this.io.UseItem(hover, this.selectedItemIndex);
                     HideItemSelector();
                     potionStatPanel.Hide();
+                    this.gameMaster.gameState.GetCurrentPlayer().RemoveItem(this.selectedItemIndex);
                     this.selectedItemIndex = -1;
                 }
             }
@@ -461,8 +462,7 @@ public class EventsHandler : MonoBehaviour
     /*
      * NOTE: should only be accessed by the Command class
      */
-    public void UsePotion(int index, Warrior warrior) {
-        warrior.ApplyPotion((Potion) this.gameMaster.gameState.GetCurrentPlayer().GetItem(index));
-        this.gameMaster.gameState.GetCurrentPlayer().RemoveItem(index);
+    public void UsePotion(Potion potion, Warrior warrior) {
+        warrior.ApplyPotion(potion);
     }
 }

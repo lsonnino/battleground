@@ -29,6 +29,10 @@
         return null;
     }
 
+    public string GetID() {
+        return this.id;
+    }
+
     public Item GetItem(int index) {
         return this.items[index];
     }

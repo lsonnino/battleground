@@ -8,6 +8,7 @@
         SUMMON
     }
 
+    private string gameID;
     private int numberOfPlayers;
     private int playerTurn;
     private Phase currentPhase;
@@ -80,5 +81,9 @@
     }
     public bool IsThisPlayerTurn() {
         return this.playerTurn == this.thisPlayer;
+    }
+
+    public string GetGameID() {
+        return this.gameID;
     }
 }

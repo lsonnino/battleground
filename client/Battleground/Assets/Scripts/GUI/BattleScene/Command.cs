@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class Command
 {
     public const int SUMMON = 0;
@@ -10,8 +11,8 @@ public class Command
 
     public int type {get;}
     public int player {get;}
-    public Warrior warrior1 {get;}
-    public Warrior warrior2 {get;}
+    public int warrior1 {get;}
+    public int warrior2 {get;}
     public int arg1 {get;}
     public int arg2 {get;}
 
@@ -21,29 +22,54 @@ public class Command
     public Command(GameState state, int type, Warrior w1, Warrior w2, int arg1, int arg2) {
         this.type = type;
         this.player = state.GetCurrentPlayerIndex();
-        this.warrior1 = w1;
-        this.warrior2 = w2;
+        this.warrior1 = WarriorToInt(state, w1);
+        this.warrior2 = WarriorToInt(state, w2);
         this.arg1 = arg1;
         this.arg2 = arg2;
+    }
+    private static int WarriorToInt(GameState state, Warrior warrior) {
+        int player = -1;
+        int index = -1;
+
+        for (int i=0 ; i < state.GetNumberOfPlayers() ; i++) {
+            Player p = state.GetPlayer(i);
+            for (int j=0 ; j < Player.MAX_WARRIORS ; j++) {
+                Warrior comp = p.GetWarrior(j);
+                if (comp != null && comp.GetX() == warrior.GetX() && comp.GetY() == warrior.GetY()) {
+                    player = i;
+                    index = j;
+                    return Player.MAX_WARRIORS * player + index;
+                }
+            }
+        }
+
+        return -1;
+    }
+    private static Warrior IntToWarrior(GameState state, int w) {
+        Player p = state.GetPlayer((int) (w / Player.MAX_WARRIORS));
+        if (p == null) { return null; }
+
+        return p.GetWarrior(w % Player.MAX_WARRIORS);
     }
 
     public void Execute(EventsHandler handler) {
         GameState state = handler.gameMaster.gameState;
+        Warrior w = IntToWarrior(state, this.warrior1);
 
         switch (type) {
             case SUMMON:
-                handler.Summon(this.warrior1, arg1, arg2, this.player == state.GetCurrentPlayerIndex());
+                handler.Summon(w, arg1, arg2, this.player == state.GetCurrentPlayerIndex());
                 break;
             case MOVE:
-                handler.MoveWarrior(this.warrior1, arg1, arg2);
+                handler.MoveWarrior(w, arg1, arg2);
                 break;
             case ATTACK:
-                handler.Attack(this.warrior1, this.warrior2);
+                handler.Attack(w, IntToWarrior(state, this.warrior2));
                 break;
             case ITEM:
                 Item selectedItem = state.GetPlayer(this.player).GetItem(this.arg1);
                 if (selectedItem.GetType() == typeof(Potion)) {
-                    handler.UsePotion(this.arg1, this.warrior1);
+                    handler.UsePotion((Potion) selectedItem, w);
                 }
                 else {
                     // Do nothing: only potions are supporter for now
