@@ -75,6 +75,9 @@
     public Player GetCurrentPlayer() {
         return this.players[this.playerTurn];
     }
+    public int GetCurrentPlayerIndex() {
+        return this.playerTurn;
+    }
     public bool IsThisPlayerTurn() {
         return this.playerTurn == this.thisPlayer;
     }

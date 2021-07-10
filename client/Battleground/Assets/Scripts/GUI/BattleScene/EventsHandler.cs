@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +15,7 @@ public class EventsHandler : MonoBehaviour
     public WarriorStatPanel statPanel;
     public PotionStatPanel potionStatPanel;
     public Sprite potionSprite;
+    public IO io;
 
     // Internal state to keep track of events
     private int turn;
@@ -92,7 +93,7 @@ public class EventsHandler : MonoBehaviour
 
             // Place it
             if (Input.GetMouseButton(0)) {
-                this.Summon(this.selectedWarrior, selectedTile.x, selectedTile.y, true);
+                this.io.Summon(this.selectedWarrior, selectedTile.x, selectedTile.y);
 
                 // Remove pads
                 this.map.RemovePads();
@@ -234,6 +235,9 @@ public class EventsHandler : MonoBehaviour
         this.openSelector = 0;
     }
 
+    /*
+     * NOTE: should only be accessed by the Command class
+     */
     public void Summon(Warrior warrior, int toX, int toY, bool isThisPlayer) {
         // Place the warrior
         this.gameMaster.field.MoveWarrior(warrior, toX, toY);
@@ -284,7 +288,7 @@ public class EventsHandler : MonoBehaviour
             if (map.padsTilemap.HasTile(selectedTile) &&
                 (selectedTile.x != this.selectedWarrior.GetX() || selectedTile.y != this.selectedWarrior.GetY())) {
                 // The warrior can be moved to that position
-                this.MoveWarrior(this.selectedWarrior, selectedTile.x, selectedTile.y);
+                this.io.Move(this.selectedWarrior, selectedTile.x, selectedTile.y);
                 this.selectedWarrior = null;
                 this.map.RemovePads();
             }
@@ -305,6 +309,9 @@ public class EventsHandler : MonoBehaviour
         }
     }
 
+    /*
+     * NOTE: should only be accessed by the Command class
+     */
     public void MoveWarrior(Warrior warrior, int toX, int toY) {
         // Get the WarriorGUI
         WarriorGUI gui = GetWarriorGUI(warrior);
@@ -352,7 +359,7 @@ public class EventsHandler : MonoBehaviour
                 }
 
                 // Attack
-                Attack(this.selectedWarrior, defender);
+                this.io.Attack(this.selectedWarrior, defender);
             }
 
             // Remove selection (even if the user selected something else)
@@ -361,6 +368,9 @@ public class EventsHandler : MonoBehaviour
         }
     }
 
+    /*
+     * NOTE: should only be accessed by the Command class
+     */
     public void Attack(Warrior attacker, Warrior defender) {
         // Get the WarriorGUI
         WarriorGUI gui = GetWarriorGUI(attacker);
@@ -435,7 +445,7 @@ public class EventsHandler : MonoBehaviour
             if (Input.GetMouseButtonDown(0)) {
                 Item selectedItem = this.gameMaster.gameState.GetCurrentPlayer().GetItem(this.selectedItemIndex);
                 if (selectedItem.GetType() == typeof(Potion)) {
-                    UsePotion(this.selectedItemIndex, hover);
+                    this.io.UseItem(hover, this.selectedItemIndex);
                     HideItemSelector();
                     potionStatPanel.Hide();
                     this.selectedItemIndex = -1;
@@ -448,6 +458,9 @@ public class EventsHandler : MonoBehaviour
         }
     }
 
+    /*
+     * NOTE: should only be accessed by the Command class
+     */
     public void UsePotion(int index, Warrior warrior) {
         warrior.ApplyPotion((Potion) this.gameMaster.gameState.GetCurrentPlayer().GetItem(index));
         this.gameMaster.gameState.GetCurrentPlayer().RemoveItem(index);
