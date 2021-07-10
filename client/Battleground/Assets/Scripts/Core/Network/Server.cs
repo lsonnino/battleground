@@ -44,25 +44,50 @@ public class Server
     /*
         =========   HANDLE GAMES   =========
     */
-    public static IEnumerator NewGame(string playerID, int maxPlayers, int team, System.Action<string> callback) {
+    public static IEnumerator NewGame(User user, int maxPlayers, int team, System.Action<string> callback) {
         NewGameSender sender = new NewGameSender();
-        sender.player_id = playerID;
+        sender.player_id = user.player_id;
         sender.max_players = maxPlayers;
         sender.team = team;
+        sender.custom = new UserDataWrapper(user);
 
         yield return Send("new_game", JsonUtility.ToJson(sender), (json) => {
             NewGameResponse res = JsonUtility.FromJson<NewGameResponse>(json);
             callback(res.id);
         });
     }
-    public static IEnumerator JoinGame(string playerID, string gameID, int team, System.Action callback) {
+    public static IEnumerator JoinGame(User user, string gameID, int team, System.Action callback) {
         JoinGameSender sender = new JoinGameSender();
-        sender.player_id = playerID;
+        sender.player_id = user.player_id;
         sender.game_id = gameID;
         sender.team = team;
+        sender.custom = new UserDataWrapper(user);
 
         yield return Send("join_game", JsonUtility.ToJson(sender), (json) => {
             callback();
+        });
+    }
+    public static IEnumerator WaitForAllPlayers(string player_id, string game_id, System.Action<GameWrapper> callback, System.Action retry) {
+        yield return GetGames(player_id, (games) => {
+            if (games.Length == 0) {
+                // The player is in no games: should never happen
+                retry();
+            }
+            else {
+                for (int i=0 ; i < games.Length ; i++) {
+                    GameWrapper game = games[i];
+                    if (game.id.Equals(game_id)){
+                        if (game.teams.Length < game.max_players) {
+                            retry();
+                            break;
+                        }
+                        else {
+                            callback(game);
+                            break;
+                        }
+                    }
+                }
+            }
         });
     }
     public static IEnumerator GetGames(string playerID, System.Action<GameWrapper[]> callback) {
@@ -155,6 +180,22 @@ public class Server
         public string id;
         public int max_players;
         public GamePlayerWrapper[] teams;
+        public GameUserDataWrapper[] custom;
+    }
+    [System.Serializable]
+    public class UserDataWrapper {
+        public Warrior[] warriors;
+        public Item[] items;
+
+        public UserDataWrapper(User user) {
+            this.warriors = user.warriors;
+            this.items = user.items;
+        }
+    }
+    [System.Serializable]
+    public class GameUserDataWrapper {
+        public string player;
+        public UserDataWrapper data;
     }
 
     [System.Serializable]
@@ -181,7 +222,7 @@ public class Server
         public string player_id;
         public int max_players;
         public int team;
-        // TODO
+        public UserDataWrapper custom;
     }
     [System.Serializable]
     public class NewGameResponse {
@@ -192,7 +233,7 @@ public class Server
         public string game_id;
         public string player_id;
         public int team;
-        // TODO
+        public UserDataWrapper custom;
     }
     [System.Serializable]
     public class GetGamesSender {

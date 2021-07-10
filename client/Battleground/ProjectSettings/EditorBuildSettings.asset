@@ -18,6 +18,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Team.unity
     guid: 7565c18f786584383befea239b8bf664
   - enabled: 1
+    path: Assets/Scenes/Join Room.unity
+    guid: 2edc098af1cab4948a0bdb7c8e29ee43
+  - enabled: 1
+    path: Assets/Scenes/Waiting For Players.unity
+    guid: 10dc8327b382649409ab2dd25c19ef2d
+  - enabled: 1
     path: Assets/Scenes/BattleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

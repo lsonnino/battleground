@@ -28,6 +28,8 @@ public class Command
         this.arg2 = arg2;
     }
     private static int WarriorToInt(GameState state, Warrior warrior) {
+        if (warrior == null) { return -1; }
+
         int player = -1;
         int index = -1;
 
@@ -46,6 +48,8 @@ public class Command
         return -1;
     }
     private static Warrior IntToWarrior(GameState state, int w) {
+        if (w < 0) { return null; }
+
         Player p = state.GetPlayer((int) (w / Player.MAX_WARRIORS));
         if (p == null) { return null; }
 

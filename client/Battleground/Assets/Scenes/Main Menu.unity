@@ -363,7 +363,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1040169731}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1261275663}
+        m_MethodName: ToTeams
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1040169731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -596,6 +607,7 @@ GameObject:
   - component: {fileID: 1261275662}
   - component: {fileID: 1261275661}
   - component: {fileID: 1261275660}
+  - component: {fileID: 1261275663}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -651,6 +663,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1261275663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261275659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb491d32cda8e4e3bb5890e00b1a6332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1279149226
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,7 +836,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1667704795}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1261275663}
+        m_MethodName: JoinRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1667704795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1009,7 +1044,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1910141218}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1261275663}
+        m_MethodName: CreateRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1910141218
 MonoBehaviour:
   m_ObjectHideFlags: 0

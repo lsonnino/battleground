@@ -23,23 +23,8 @@ public class BattleScene : MonoBehaviour
 
     // TODO: has to be modified once starting menu's have been done
     void Start() {
-        // TODO: Only keep this part until the menu's are not complete
-        // begin {
-        Player player1 = new Player(
-            "0", "Player 1",
-            new Warrior[]{new Warrior(Warrior.GLADIATOR), new Warrior(Warrior.GLADIATOR), null, null, null},
-            new Potion[]{new Potion(Potion.HEAL), new Potion(Potion.STRENGTH), new Potion(Potion.WEAKNESS), new Potion(Potion.RUNNER), new Potion(Potion.AGING)}
-        );
-        Player player2 = new Player(
-            "1", "Player 2",
-            new Warrior[]{new Warrior(Warrior.GLADIATOR), new Warrior(Warrior.GLADIATOR), null, null, null},
-            new Potion[]{new Potion(Potion.HEAL), new Potion(Potion.HEAL), new Potion(Potion.STRENGTH), null, null}
-        );
-        this.gameState = new GameState(new Player[]{player1, player2}, 0);
-
+        this.gameState = User.gameState;
         this.field = new Field(nonCollidingTilemaps, collidingTilemaps);
-        // } end
-
 
         // Initialize state
         this.isLooking = false;

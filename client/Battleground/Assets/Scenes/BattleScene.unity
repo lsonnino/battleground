@@ -167,11 +167,12 @@ MonoBehaviour:
   Dino: {fileID: 0}
   Gladiator: {fileID: 5513480107931317169, guid: 246c130afcb674a018668b369d4fc00b,
     type: 3}
-  Knight: {fileID: 0}
-  Ninja: {fileID: 0}
-  Pumpkin: {fileID: 0}
-  F_Zombie: {fileID: 0}
-  M_Zombie: {fileID: 0}
+  Knight: {fileID: 5988468209055836381, guid: 6da27c529f7004785acbebfbedc838a2, type: 3}
+  Ninja: {fileID: 4583433793422185349, guid: 6b2591cec81244f97aaf0d49f3c5fcfb, type: 3}
+  Pumpkin: {fileID: 6649442181343549794, guid: 0e410f362da2e4e50a4e30ec406a4960, type: 3}
+  F_Zombie: {fileID: 737691153685271528, guid: 6077fbb49c393436bab8c3641d59d93d, type: 3}
+  M_Zombie: {fileID: 7671878857467174375, guid: 619e2ff3100d7402990ddc3600992591,
+    type: 3}
   playableCharacters: []
 --- !u!1 &162531696
 GameObject:
@@ -4542,7 +4543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c45a66a58365400a846c8723abd5ccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug: 1
+  debug: 0
   isLooking: 0
   start: 0
   nextPhaseButton: {fileID: 1476322702}
@@ -49046,6 +49047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6390d3e27f10f4aa28e94da3f7819c2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 1584782840}
 --- !u!1 &1632846323
 GameObject:
   m_ObjectHideFlags: 0
@@ -49142,7 +49144,7 @@ MonoBehaviour:
     type: 3}
   summonIndicator: {fileID: 8852797563311604980, guid: f678e273696c847e1a214113ee85a2f7,
     type: 3}
-  indicator: {fileID: 0}
+  indicator: {fileID: 1632846325}
 --- !u!1 &1663455218
 GameObject:
   m_ObjectHideFlags: 0

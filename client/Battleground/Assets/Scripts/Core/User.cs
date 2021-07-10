@@ -9,6 +9,8 @@ public class User {
     public static User currentUser; // the current user instance
     public static string game_id = ""; // The current game id the user wants to play
 
+    public static GameState gameState {get; set;}
+
     public string player_id {get;}
     public string username {get;}
     public Warrior[] warriors {get; set;}
@@ -23,6 +25,24 @@ public class User {
         this.items = new Item[Player.MAX_ITEMS];
         this.musicVolume = 1f;
         this.soundVolume = 1f;
+
+        // TODO: remove this and implement a Team builder
+        if (this.username.Equals("Lor")) {
+            this.warriors = new Warrior[]{
+                new Warrior(Warrior.GLADIATOR),
+                new Warrior(Warrior.KNIGHT),
+                new Warrior(Warrior.NINJA),
+                new Warrior(Warrior.PUMPKIN),
+                new Warrior(Warrior.M_ZOMBIE)
+            };
+            this.items = new Item[]{
+                new Potion(Potion.HEAL),
+                new Potion(Potion.STRENGTH),
+                new Potion(Potion.WEAKNESS),
+                new Potion(Potion.RUNNER),
+                new Potion(Potion.AGING)
+            };
+        }
     }
 
     public Player ToPlayer() {

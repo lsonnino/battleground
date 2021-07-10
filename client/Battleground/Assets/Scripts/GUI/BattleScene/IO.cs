@@ -11,6 +11,7 @@ public class IO : MonoBehaviour
     private int lastReceivedPlayer;
 
     void Start() {
+        sendingQueue = new List<Command>();
         seq = new int[handler.gameMaster.gameState.GetNumberOfPlayers()];
 
         StartCoroutine(Receive());

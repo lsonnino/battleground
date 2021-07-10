@@ -3,12 +3,9 @@ using UnityEngine.UI;
 
 public class TurnText : MonoBehaviour
 {
-    private Text text;
+    public Text text;
 
-    void Start()
-    {
-        text = this.GetComponent<Text>();
-    }
+    void Start() {}
     void Update() {}
 
     public void UpdateText(bool thisPlayerTurn) {
