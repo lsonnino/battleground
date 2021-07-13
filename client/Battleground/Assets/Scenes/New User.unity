@@ -446,7 +446,6 @@ GameObject:
   - component: {fileID: 577284272}
   - component: {fileID: 577284271}
   - component: {fileID: 577284270}
-  - component: {fileID: 577284273}
   - component: {fileID: 577284274}
   m_Layer: 5
   m_Name: Submit
@@ -566,20 +565,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 577284268}
   m_CullTransparentMesh: 0
---- !u!114 &577284273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 577284268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d961c1cd4f424099841856e2a727625, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioHandler: {fileID: 0}
-  text: {fileID: 973437350}
 --- !u!114 &577284274
 MonoBehaviour:
   m_ObjectHideFlags: 0

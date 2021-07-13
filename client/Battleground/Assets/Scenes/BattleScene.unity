@@ -165,13 +165,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Dino: {fileID: 0}
-  Gladiator: {fileID: 5513480107931317169, guid: 246c130afcb674a018668b369d4fc00b,
+  Gladiator: {fileID: 8498439386764346995, guid: 246c130afcb674a018668b369d4fc00b,
     type: 3}
-  Knight: {fileID: 5988468209055836381, guid: 6da27c529f7004785acbebfbedc838a2, type: 3}
-  Ninja: {fileID: 4583433793422185349, guid: 6b2591cec81244f97aaf0d49f3c5fcfb, type: 3}
-  Pumpkin: {fileID: 6649442181343549794, guid: 0e410f362da2e4e50a4e30ec406a4960, type: 3}
-  F_Zombie: {fileID: 737691153685271528, guid: 6077fbb49c393436bab8c3641d59d93d, type: 3}
-  M_Zombie: {fileID: 7671878857467174375, guid: 619e2ff3100d7402990ddc3600992591,
+  Knight: {fileID: 2477550557534453702, guid: bf13ef1c6bcdc4a35a0023f65f6c4e4f, type: 3}
+  Ninja: {fileID: 7685560527156513081, guid: 6909045831ddc427f9a858f733479633, type: 3}
+  Pumpkin: {fileID: 3700359730241815452, guid: 427891aeb4bd24cb4aaf556de626b6e9, type: 3}
+  F_Zombie: {fileID: 5402143114121736866, guid: 16c1941b52f2b4173bb27cc542f1906b,
+    type: 3}
+  M_Zombie: {fileID: 1380911847885175320, guid: 6dff32a21198b49708c51066cbf17514,
     type: 3}
   playableCharacters: []
 --- !u!1 &162531696
@@ -4732,8 +4733,6 @@ MonoBehaviour:
   warriorSelectorPane: {fileID: 290810465}
   itemSelectorPane: {fileID: 290810465}
   transparentImage: {fileID: 21300000, guid: 1f7d25e502f2144509397ed26df86d0c, type: 3}
-  warriorPlacer: {fileID: 3749929317463399464, guid: 517abcf8236e84dda98bb7f3b2539f73,
-    type: 3}
   statPanel: {fileID: 1063224130}
   potionStatPanel: {fileID: 1544596951}
   potionSprite: {fileID: 21300000, guid: 979bc9d32209f4b74aa957cffab551d9, type: 3}

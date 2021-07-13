@@ -33,6 +33,6 @@ public class PlayableCharacters : MonoBehaviour
     public Sprite GetWarriorImage(int index) {
         if (index < 0 || index > playableCharacters.Length) { return null; }
 
-        return playableCharacters[index].GetComponent<SpriteRenderer>().sprite;
+        return playableCharacters[index].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite;
     }
 }

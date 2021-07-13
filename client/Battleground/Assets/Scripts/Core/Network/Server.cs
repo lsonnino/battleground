@@ -184,12 +184,18 @@ public class Server
     }
     [System.Serializable]
     public class UserDataWrapper {
-        public Warrior[] warriors;
-        public Item[] items;
+        public int[] warriors;
+        public int[] items;
 
         public UserDataWrapper(User user) {
-            this.warriors = user.warriors;
-            this.items = user.items;
+            this.warriors = new int[user.warriors.Length];
+            for (int i=0 ; i < this.warriors.Length ; i++) {
+                this.warriors[i] = Warrior.GetWarriorIndex(user.warriors[i]);
+            }
+            this.items = new int[user.items.Length];
+            for (int i=0 ; i < this.warriors.Length ; i++) {
+                this.items[i] = Item.GetItemIndex(user.items[i]);
+            }
         }
     }
     [System.Serializable]

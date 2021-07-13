@@ -11,7 +11,6 @@ public class EventsHandler : MonoBehaviour
     public MapEvents map;
     public GameObject warriorSelectorPane, itemSelectorPane;
     public Sprite transparentImage;
-    public GameObject warriorPlacer;
     public WarriorStatPanel statPanel;
     public PotionStatPanel potionStatPanel;
     public Sprite potionSprite;
@@ -96,9 +95,6 @@ public class EventsHandler : MonoBehaviour
 
                 // Remove pads
                 this.map.RemovePads();
-
-                // End the summoning phase
-                this.gameMaster.NextPhase();
             }
         }
         else {
@@ -243,25 +239,21 @@ public class EventsHandler : MonoBehaviour
 
         // Make him appear
         var placer = Instantiate(
-            warriorPlacer,
-            new Vector3(toX + 0.5f, toY + 1, 5f + ((float) toY) / 100f),
-            Quaternion.identity
-        );
-        var war = Instantiate(
             playableCharacters.playableCharacters[Warrior.GetWarriorIndex(warrior)],
-            Vector3.zero,
+            new Vector3(toX, toY, 5f + ((float) toY) / 100f),
             Quaternion.identity
         );
         Vector3 initialScale = placer.transform.localScale;
         placer.transform.parent = this.map.transform.parent;
         placer.transform.localScale = initialScale;
-        war.transform.parent = placer.transform;
-        war.transform.localScale = Vector3.one;
-        war.transform.localPosition = Vector3.zero;
+        var war = placer.transform.GetChild(0);
 
         WarriorGUI warGUI = war.GetComponent<WarriorGUI>();
         warGUI.Init(warrior, isThisPlayer);
         warriorsGUI.Add(warGUI);
+
+        // End the summoning phase
+        this.gameMaster.NextPhase();
     }
 
     // === MOVE ============================
