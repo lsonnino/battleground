@@ -29,7 +29,7 @@ public class IO : MonoBehaviour
             this.lastReceivedPlayer++;
         }
 
-        if (this.lastReceivedPlayer == GetGameState().GetNumberOfPlayers()) {
+        if (this.lastReceivedPlayer >= GetGameState().GetNumberOfPlayers()) {
             this.lastReceivedPlayer = 0;
         }
 

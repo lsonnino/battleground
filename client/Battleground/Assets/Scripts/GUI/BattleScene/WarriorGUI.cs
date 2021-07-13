@@ -86,6 +86,14 @@ public class WarriorGUI : MonoBehaviour
     }
 
     public void Die() {
+        /*
+         * NOTE: at the end of the animation, the SpriteRenderer is destroyed but
+         * not the Empty who is his parent object. This is because of the script
+         * Scripts/GUI/BattleScene/AutodestroyAnimation.cs which destroys the object
+         * which has the Animator and not his parent. Therefore, at the end of
+         * the game there will be an amount of invisible Empties instances around
+         * the map.
+         */
         this.animator.SetTrigger("Die");
     }
 }

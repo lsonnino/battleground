@@ -126,6 +126,8 @@ public class Server
     }
     public static IEnumerator SendCommand(GameState state, CommandWrapper command, System.Action<int> callback) {
         UpdateQuerry querry = new UpdateQuerry(state, command);
+        Debug.Log(command.data.type);
+        Debug.Log(JsonUtility.ToJson(querry));
 
         yield return Send("update_state", JsonUtility.ToJson(querry), (json) => {
             UpdateResponse res = JsonUtility.FromJson<UpdateResponse>(json);
@@ -166,8 +168,8 @@ public class Server
         public Command data;
 
         public CommandWrapper(Command command, int seq) {
-            this.data = command;
             this.seq = seq;
+            this.data = command;
         }
     }
     [System.Serializable]

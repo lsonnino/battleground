@@ -95,6 +95,9 @@ public class EventsHandler : MonoBehaviour
 
                 // Remove pads
                 this.map.RemovePads();
+
+                // End the turn
+                this.io.NextPhase();
             }
         }
         else {
@@ -193,7 +196,6 @@ public class EventsHandler : MonoBehaviour
             default:
                 break;
         }
-
     }
 
     // === SUMMON ============================
@@ -240,20 +242,15 @@ public class EventsHandler : MonoBehaviour
         // Make him appear
         var placer = Instantiate(
             playableCharacters.playableCharacters[Warrior.GetWarriorIndex(warrior)],
-            new Vector3(toX, toY, 5f + ((float) toY) / 100f),
-            Quaternion.identity
+            this.map.transform.parent,
+            false
         );
-        Vector3 initialScale = placer.transform.localScale;
-        placer.transform.parent = this.map.transform.parent;
-        placer.transform.localScale = initialScale;
-        var war = placer.transform.GetChild(0);
 
+        var war = placer.transform.GetChild(0);
+        placer.transform.localPosition = new Vector3(toX, toY, 5f + ((float) toY) / 100f);
         WarriorGUI warGUI = war.GetComponent<WarriorGUI>();
         warGUI.Init(warrior, isThisPlayer);
         warriorsGUI.Add(warGUI);
-
-        // End the summoning phase
-        this.gameMaster.NextPhase();
     }
 
     // === MOVE ============================

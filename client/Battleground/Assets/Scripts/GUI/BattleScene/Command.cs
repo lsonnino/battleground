@@ -10,12 +10,12 @@ public class Command
     public const int ITEM = 3;
     public const int END_PHASE = 4;
 
-    public int type {get;}
-    public int player {get;}
-    public int warrior1 {get;}
-    public int warrior2 {get;}
-    public int arg1 {get;}
-    public int arg2 {get;}
+    public int type;
+    public int player;
+    public int warrior1;
+    public int warrior2;
+    public int arg1;
+    public int arg2;
 
     /*
      * NOTE: should not be called carelessly: use the static functions here-below
@@ -38,7 +38,7 @@ public class Command
             Player p = state.GetPlayer(i);
             for (int j=0 ; j < Player.MAX_WARRIORS ; j++) {
                 Warrior comp = p.GetWarrior(j);
-                if (comp != null && comp.GetX() == warrior.GetX() && comp.GetY() == warrior.GetY()) {
+                if (comp != null && comp.id.Equals(warrior.id) && comp.GetX() == warrior.GetX() && comp.GetY() == warrior.GetY()) {
                     player = i;
                     index = j;
                     return Player.MAX_WARRIORS * player + index;
