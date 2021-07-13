@@ -8,6 +8,7 @@ public class Command
     public const int MOVE = 1;
     public const int ATTACK = 2;
     public const int ITEM = 3;
+    public const int END_PHASE = 4;
 
     public int type {get;}
     public int player {get;}
@@ -79,6 +80,9 @@ public class Command
                     // Do nothing: only potions are supporter for now
                 }
                 break;
+            case END_PHASE:
+                handler.gameMaster.NextPhase();
+                break;
             default:
                 break;
         }
@@ -95,5 +99,8 @@ public class Command
     }
     public static Command UseItem(GameState state, Warrior warrior, int index) {
         return new Command(state, ITEM, warrior, null, index, -1);
+    }
+    public static Command NextPhase(GameState state) {
+        return new Command(state, END_PHASE, null, null, -1, -1);
     }
 }

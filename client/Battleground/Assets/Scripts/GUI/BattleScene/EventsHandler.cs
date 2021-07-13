@@ -67,7 +67,6 @@ public class EventsHandler : MonoBehaviour
         }
 
         // Do not register clicks on the open selector (except by the selector itself)
-        RectTransform rectPane = null;
         switch (openSelector) {
             case 1: // Warrior selector
                 if (warriorSelectorPane.GetComponent<SelectorPaneEntry>().ContainsMouse()) {
@@ -249,7 +248,7 @@ public class EventsHandler : MonoBehaviour
             Quaternion.identity
         );
         var war = Instantiate(
-            playableCharacters.playableCharacters[Warrior.GetWarriorIndex(this.selectedWarrior)],
+            playableCharacters.playableCharacters[Warrior.GetWarriorIndex(warrior)],
             Vector3.zero,
             Quaternion.identity
         );

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4583433793422185354}
   - component: {fileID: 4583433793422185352}
   - component: {fileID: 4583433793422185353}
+  - component: {fileID: 5151286664033198214}
   m_Layer: 0
   m_Name: Ninja
   m_TagString: Untagged
@@ -118,3 +119,17 @@ MonoBehaviour:
   moveXOffset: 0
   attackXOffset: 1
   dieXOffset: 1
+--- !u!114 &5151286664033198214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4583433793422185349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31ca12be171094f089bc9c802b03da72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 1
+  isThisPlayer: 0

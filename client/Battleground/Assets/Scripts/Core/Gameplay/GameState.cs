@@ -16,7 +16,8 @@
     private int thisPlayer;
     private int start;
 
-    public GameState(Player[] players, int thisPlayer) {
+    public GameState(string gameID, Player[] players, int thisPlayer) {
+        this.gameID = gameID;
         this.players = players;
         this.numberOfPlayers = players.Length;
         this.playerTurn = 0;

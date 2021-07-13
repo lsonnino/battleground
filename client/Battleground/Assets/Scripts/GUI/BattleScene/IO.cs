@@ -13,6 +13,7 @@ public class IO : MonoBehaviour
     void Start() {
         sendingQueue = new List<Command>();
         seq = new int[handler.gameMaster.gameState.GetNumberOfPlayers()];
+        System.Array.Clear(seq, 0, seq.Length);
 
         StartCoroutine(Receive());
         StartCoroutine(Send());
@@ -86,6 +87,11 @@ public class IO : MonoBehaviour
     }
     public void UseItem(Warrior warrior, int index) {
         Command command = Command.UseItem(GetGameState(), warrior, index);
+        command.Execute(handler);
+        this.AddToSendingQueue(command);
+    }
+    public void NextPhase() {
+        Command command = Command.NextPhase(GetGameState());
         command.Execute(handler);
         this.AddToSendingQueue(command);
     }

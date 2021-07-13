@@ -37,7 +37,7 @@ public class WaitingForPlayers : MonoBehaviour
                 }
             }
 
-            User.gameState = new GameState(players, thisPlayer);
+            User.gameState = new GameState(User.game_id, players, thisPlayer);
 
             // Load the next scene
             SceneManager.LoadScene("Scenes/BattleScene");
