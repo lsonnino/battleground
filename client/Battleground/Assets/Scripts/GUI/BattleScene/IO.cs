@@ -25,7 +25,7 @@ public class IO : MonoBehaviour
 
     public IEnumerator Receive() {
         this.lastReceivedPlayer++;
-        if (this.lastReceivedPlayer == GetGameState().GetCurrentPlayerIndex()) {
+        if (this.lastReceivedPlayer == GetGameState().GetThisPlayerIndex()) {
             this.lastReceivedPlayer++;
         }
 
@@ -36,7 +36,7 @@ public class IO : MonoBehaviour
         yield return Server.ReceiveCommands(GetGameState(), this.lastReceivedPlayer, seq[this.lastReceivedPlayer], (commands) => {
             if (commands != null) {
                 for (int i=0 ; i < commands.Length ; i++) {
-                    seq[this.lastReceivedPlayer] = commands[i].seq;
+                    seq[this.lastReceivedPlayer] = commands[i].seq + 1;
                     commands[i].data.Execute(this.handler);
                 }
             }
@@ -51,10 +51,10 @@ public class IO : MonoBehaviour
         }
         else {
             Command command = sendingQueue[0];
-            Server.CommandWrapper wrapper = new Server.CommandWrapper(command, seq[GetGameState().GetCurrentPlayerIndex()]);
+            Server.CommandWrapper wrapper = new Server.CommandWrapper(command, seq[GetGameState().GetThisPlayerIndex()]);
             yield return Server.SendCommand(GetGameState(), wrapper, (next_seq) => {
-                if (next_seq > seq[GetGameState().GetCurrentPlayerIndex()]) {
-                    seq[GetGameState().GetCurrentPlayerIndex()] = next_seq;
+                if (next_seq > seq[GetGameState().GetThisPlayerIndex()]) {
+                    seq[GetGameState().GetThisPlayerIndex()] = next_seq;
                     sendingQueue.Remove(command);
                 }
 

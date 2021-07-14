@@ -126,8 +126,6 @@ public class Server
     }
     public static IEnumerator SendCommand(GameState state, CommandWrapper command, System.Action<int> callback) {
         UpdateQuerry querry = new UpdateQuerry(state, command);
-        Debug.Log(command.data.type);
-        Debug.Log(JsonUtility.ToJson(querry));
 
         yield return Send("update_state", JsonUtility.ToJson(querry), (json) => {
             UpdateResponse res = JsonUtility.FromJson<UpdateResponse>(json);
@@ -266,7 +264,7 @@ public class Server
         : this(state, new CommandWrapper[]{command}) {}
         public UpdateQuerry(GameState state, CommandWrapper[] commands) {
             this.game_id = state.GetGameID();
-            this.player_id = state.GetCurrentPlayer().GetID();
+            this.player_id = state.GetThisPlayer().GetID();
             this.commands = commands;
         }
     }

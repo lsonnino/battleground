@@ -122,6 +122,12 @@ public class EventsHandler : MonoBehaviour
             if (!gameMaster.gameState.IsThisPlayerTurn()) {
                 HideWarriorSelector();
             }
+            else {
+                // This player is the second player to play: the first player
+                // summoned his first character, now it is this player's turn
+                // -> Trigger a phase change to display the Warrior selector
+                this.phase = GameState.Phase.NONE;
+            }
         }
 
         this.turn = newTurn;
@@ -181,13 +187,13 @@ public class EventsHandler : MonoBehaviour
         switch(this.openSelector) {
             case 1:
                 if (index < 0 || index >= Player.MAX_WARRIORS) { return; }
-                this.selectedWarrior = gameMaster.gameState.GetCurrentPlayer().GetWarrior(index);
+                this.selectedWarrior = gameMaster.gameState.GetThisPlayer().GetWarrior(index);
                 break;
             case 2:
                 if (index < 0 || index >= Player.MAX_ITEMS) { return; }
                 this.selectedItemIndex = index;
 
-                Item item = this.gameMaster.gameState.GetCurrentPlayer().GetItem(index);
+                Item item = this.gameMaster.gameState.GetThisPlayer().GetItem(index);
                 if (item.GetType() == typeof(Potion)) {
                     potionStatPanel.Show((Potion) item);
                 }
@@ -203,7 +209,7 @@ public class EventsHandler : MonoBehaviour
         HideSelectors();
 
         for (int i=0 ; i < Player.MAX_WARRIORS ; i++) {
-            Warrior warrior = gameMaster.gameState.GetCurrentPlayer().GetWarrior(i);
+            Warrior warrior = gameMaster.gameState.GetThisPlayer().GetWarrior(i);
 
             // No warriors or already placed warrior
             if (warrior == null || warrior.IsPlaced()) {
@@ -259,7 +265,7 @@ public class EventsHandler : MonoBehaviour
             this.map.RemovePads();
 
             // Select the warrior to move
-            Warrior hover = this.gameMaster.gameState.GetCurrentPlayer().GetWarriorAt(selectedTile.x, selectedTile.y);
+            Warrior hover = this.gameMaster.gameState.GetThisPlayer().GetWarriorAt(selectedTile.x, selectedTile.y);
             if (hover != null && !hover.moved) {
                 this.map.AddPad(selectedTile, false);
 
@@ -282,8 +288,8 @@ public class EventsHandler : MonoBehaviour
             }
             else {
                 this.map.RemovePads();
-                // Has the user selected another warrior ?
-                Warrior newSelection = this.gameMaster.gameState.GetCurrentPlayer().GetWarriorAt(selectedTile.x, selectedTile.y);
+                // Did the user select another warrior ?
+                Warrior newSelection = this.gameMaster.gameState.GetThisPlayer().GetWarriorAt(selectedTile.x, selectedTile.y);
                 if (newSelection != null && !newSelection.moved) {
                     this.selectedWarrior = newSelection;
                     this.map.ShowPositions(this.selectedWarrior);
@@ -321,7 +327,7 @@ public class EventsHandler : MonoBehaviour
             this.map.RemovePads();
 
             // Select the attacker
-            Warrior hover = this.gameMaster.gameState.GetCurrentPlayer().GetWarriorAt(selectedTile.x, selectedTile.y);
+            Warrior hover = this.gameMaster.gameState.GetThisPlayer().GetWarriorAt(selectedTile.x, selectedTile.y);
             if (hover != null && !hover.attacked) {
                 this.map.AddPad(selectedTile, true);
 
@@ -392,7 +398,7 @@ public class EventsHandler : MonoBehaviour
         HideSelectors();
 
         for (int i=0 ; i < Player.MAX_ITEMS ; i++) {
-            Item item = gameMaster.gameState.GetCurrentPlayer().GetItem(i);
+            Item item = gameMaster.gameState.GetThisPlayer().GetItem(i);
 
             // No warriors or already placed warrior
             if (item == null) {
@@ -424,19 +430,24 @@ public class EventsHandler : MonoBehaviour
     private void HandleItem(Vector3Int selectedTile) {
         this.map.RemovePads();
 
-        // Select the attacker
-        Warrior hover = this.gameMaster.gameState.GetCurrentPlayer().GetWarriorAt(selectedTile.x, selectedTile.y);
+        Warrior hover = null;
+        for (int i=0 ; i < this.gameMaster.gameState.GetNumberOfPlayers() ; i++) {
+            hover = this.gameMaster.gameState.GetPlayer(i).GetWarriorAt(selectedTile.x, selectedTile.y);
+            if (hover != null) {
+                break;
+            }
+        }
         if (hover != null) {
             this.map.AddPad(selectedTile, true);
 
             // Select it
             if (Input.GetMouseButtonDown(0)) {
-                Item selectedItem = this.gameMaster.gameState.GetCurrentPlayer().GetItem(this.selectedItemIndex);
+                Item selectedItem = this.gameMaster.gameState.GetThisPlayer().GetItem(this.selectedItemIndex);
                 if (selectedItem.GetType() == typeof(Potion)) {
                     this.io.UseItem(hover, this.selectedItemIndex);
                     HideItemSelector();
                     potionStatPanel.Hide();
-                    this.gameMaster.gameState.GetCurrentPlayer().RemoveItem(this.selectedItemIndex);
+                    this.gameMaster.gameState.GetThisPlayer().RemoveItem(this.selectedItemIndex);
                     this.selectedItemIndex = -1;
                 }
             }

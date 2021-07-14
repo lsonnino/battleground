@@ -51,7 +51,7 @@ public class WarriorGUI : MonoBehaviour
         }
 
         this.x += addedX; this.y += addedY;
-        this.transform.parent.Translate(new Vector3(addedX, addedY, addedY / 100f));
+        this.transform.parent.localPosition += new Vector3(addedX, addedY, addedY / 100f);
     }
     private float ComputeAdded(float cur, float targ, float speed) {
         if (cur == targ) {

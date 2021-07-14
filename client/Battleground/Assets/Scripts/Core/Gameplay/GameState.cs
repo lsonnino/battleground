@@ -74,11 +74,17 @@
     public Player GetPlayer(int index) {
         return this.players[index];
     }
-    public Player GetCurrentPlayer() {
+    /*public Player GetCurrentPlayer() {
         return this.players[this.playerTurn];
     }
     public int GetCurrentPlayerIndex() {
         return this.playerTurn;
+    }*/
+    public Player GetThisPlayer() {
+        return this.players[this.thisPlayer];
+    }
+    public int GetThisPlayerIndex() {
+        return this.thisPlayer;
     }
     public bool IsThisPlayerTurn() {
         return this.playerTurn == this.thisPlayer;

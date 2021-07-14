@@ -22,7 +22,7 @@ public class Command
      */
     public Command(GameState state, int type, Warrior w1, Warrior w2, int arg1, int arg2) {
         this.type = type;
-        this.player = state.GetCurrentPlayerIndex();
+        this.player = state.GetThisPlayerIndex();
         this.warrior1 = WarriorToInt(state, w1);
         this.warrior2 = WarriorToInt(state, w2);
         this.arg1 = arg1;
@@ -31,17 +31,12 @@ public class Command
     private static int WarriorToInt(GameState state, Warrior warrior) {
         if (warrior == null) { return -1; }
 
-        int player = -1;
-        int index = -1;
-
         for (int i=0 ; i < state.GetNumberOfPlayers() ; i++) {
             Player p = state.GetPlayer(i);
             for (int j=0 ; j < Player.MAX_WARRIORS ; j++) {
                 Warrior comp = p.GetWarrior(j);
                 if (comp != null && comp.id.Equals(warrior.id) && comp.GetX() == warrior.GetX() && comp.GetY() == warrior.GetY()) {
-                    player = i;
-                    index = j;
-                    return Player.MAX_WARRIORS * player + index;
+                    return Player.MAX_WARRIORS * i + j;
                 }
             }
         }
@@ -63,7 +58,7 @@ public class Command
 
         switch (type) {
             case SUMMON:
-                handler.Summon(w, arg1, arg2, this.player == state.GetCurrentPlayerIndex());
+                handler.Summon(w, arg1, arg2, this.player == state.GetThisPlayerIndex());
                 break;
             case MOVE:
                 handler.MoveWarrior(w, arg1, arg2);
