@@ -32,11 +32,11 @@ public class WaitingForPlayers : MonoBehaviour
                     User user = new User(game.custom[i].player, "Player " + i);
                     user.warriors = new Warrior[game.custom[i].data.warriors.Length];
                     for (int j=0 ; j < user.warriors.Length ; j++) {
-                        user.warriors[j] = Warrior.WARRIORS[game.custom[i].data.warriors[j]];
+                        user.warriors[j] = new Warrior(Warrior.WARRIORS[game.custom[i].data.warriors[j]]);
                     }
                     user.items = new Item[game.custom[i].data.items.Length];
                     for (int j=0 ; j < user.items.Length ; j++) {
-                        user.items[j] = Item.ITEMS[game.custom[i].data.items[j]];
+                        user.items[j] = new Item(Item.ITEMS[game.custom[i].data.items[j]]);
                     }
 
                     players[i] = user.ToPlayer();
