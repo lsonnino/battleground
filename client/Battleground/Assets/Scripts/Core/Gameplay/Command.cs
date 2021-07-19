@@ -31,8 +31,22 @@ public class Command
     private static int WarriorToInt(GameState state, Warrior warrior) {
         if (warrior == null) { return -1; }
 
-        for (int i=0 ; i < state.GetNumberOfPlayers() ; i++) {
+        if (warrior.IsPlaced()) {
+            for (int i=0 ; i < state.GetNumberOfPlayers() ; i++) {
+                Player p = state.GetPlayer(i);
+
+                for (int j=0 ; j < Player.MAX_WARRIORS ; j++) {
+                    Warrior comp = p.GetWarrior(j);
+                    if (comp != null && comp.id.Equals(warrior.id) && comp.GetX() == warrior.GetX() && comp.GetY() == warrior.GetY()) {
+                        return Player.MAX_WARRIORS * i + j;
+                    }
+                }
+            }
+        }
+        else {
+            int i = state.GetThisPlayerIndex();
             Player p = state.GetPlayer(i);
+
             for (int j=0 ; j < Player.MAX_WARRIORS ; j++) {
                 Warrior comp = p.GetWarrior(j);
                 if (comp != null && comp.id.Equals(warrior.id) && comp.GetX() == warrior.GetX() && comp.GetY() == warrior.GetY()) {

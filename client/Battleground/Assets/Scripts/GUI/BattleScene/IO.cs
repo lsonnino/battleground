@@ -31,13 +31,16 @@ public class IO : MonoBehaviour
 
         if (this.lastReceivedPlayer >= GetGameState().GetNumberOfPlayers()) {
             this.lastReceivedPlayer = 0;
+
+            if (this.lastReceivedPlayer == GetGameState().GetThisPlayerIndex()) {
+                this.lastReceivedPlayer++;
+            }
         }
 
         yield return Server.ReceiveCommands(GetGameState(), this.lastReceivedPlayer, seq[this.lastReceivedPlayer], (commands) => {
             if (commands != null) {
                 for (int i=0 ; i < commands.Length ; i++) {
                     seq[this.lastReceivedPlayer] = commands[i].seq + 1;
-                    Debug.Log("[RECEIVE] type " + commands[i].data.type);
                     commands[i].data.Execute(this.handler);
                 }
             }
@@ -56,7 +59,6 @@ public class IO : MonoBehaviour
             yield return Server.SendCommand(GetGameState(), wrapper, (next_seq) => {
                 if (next_seq > seq[GetGameState().GetThisPlayerIndex()]) {
                     seq[GetGameState().GetThisPlayerIndex()] = next_seq;
-                    Debug.Log("[SEND] type " + command.type);
                     sendingQueue.Remove(command);
                 }
 
