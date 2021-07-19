@@ -36,7 +36,14 @@ public class WaitingForPlayers : MonoBehaviour
                     }
                     user.items = new Item[game.custom[i].data.items.Length];
                     for (int j=0 ; j < user.items.Length ; j++) {
-                        user.items[j] = new Item(Item.ITEMS[game.custom[i].data.items[j]]);
+                        Item model = Item.ITEMS[game.custom[i].data.items[j]];
+                        if (model.GetType() == typeof(Potion)) {
+                            user.items[j] = new Potion((Potion) model);
+                        }
+                        else {
+                            // TODO: only potions supported for now
+                            Debug.Log("[WAIT FOR PLAYERS] Only potions supported for now");
+                        }
                     }
 
                     players[i] = user.ToPlayer();
