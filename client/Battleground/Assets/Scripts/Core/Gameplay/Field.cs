@@ -92,14 +92,24 @@ public class Field
     }
 
     /*
+     * Remove a Warrior from the field (if it died for instance)
+     */
+    public void RemoveWarrior(Warrior warrior) {
+        if (warrior.IsPlaced()) {
+            walkableState[warrior.GetX() - offsetX, warrior.GetY() - offsetY] =
+                walkable[warrior.GetX() - offsetX, warrior.GetY() - offsetY];
+        }
+
+        warrior.Place(-1, -1);
+    }
+    /*
      * Move a warrior to a given position or place it for the first time at a
      * given position
      */
     public void MoveWarrior(Warrior warrior, int x, int y) {
         // Reset where the warrior was
         if (warrior.IsPlaced()) {
-            walkableState[warrior.GetX() - offsetX, warrior.GetY() - offsetY] =
-                walkable[warrior.GetX() - offsetX, warrior.GetY() - offsetY];
+            RemoveWarrior(warrior);
         }
         else {
             // The warrior is beeing summoned: cannot attack

@@ -387,6 +387,8 @@ public class EventsHandler : MonoBehaviour
             gui.Die();
             // Remove him from the list
             warriorsGUI.Remove(gui);
+            // Remove him from the field
+            this.gameMaster.field.RemoveWarrior(defender);
         }
     }
 
