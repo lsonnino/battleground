@@ -4682,12 +4682,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &290810465 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5103990431637067723, guid: fc68e68c1d55d45be9f9a84e5d717dbe,
-    type: 3}
-  m_PrefabInstance: {fileID: 5103990431925747114}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &290810466 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5103990431637067720, guid: fc68e68c1d55d45be9f9a84e5d717dbe,
@@ -4824,8 +4818,7 @@ MonoBehaviour:
   gameMaster: {fileID: 174390995}
   playableCharacters: {fileID: 141923989}
   map: {fileID: 1733150172}
-  warriorSelectorPane: {fileID: 290810465}
-  itemSelectorPane: {fileID: 290810465}
+  selectorPane: {fileID: 5103990431925747115}
   transparentImage: {fileID: 21300000, guid: 1f7d25e502f2144509397ed26df86d0c, type: 3}
   statPanel: {fileID: 1063224130}
   potionStatPanel: {fileID: 1544596951}
@@ -56699,6 +56692,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 683726322}
     m_Modifications:
+    - target: {fileID: 4220284234500162908, guid: fc68e68c1d55d45be9f9a84e5d717dbe,
+        type: 3}
+      propertyPath: handler
+      value: 
+      objectReference: {fileID: 532846339}
     - target: {fileID: 5103990431637067720, guid: fc68e68c1d55d45be9f9a84e5d717dbe,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -56816,6 +56814,18 @@ PrefabInstance:
       objectReference: {fileID: 532846339}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc68e68c1d55d45be9f9a84e5d717dbe, type: 3}
+--- !u!114 &5103990431925747115 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4220284234500162908, guid: fc68e68c1d55d45be9f9a84e5d717dbe,
+    type: 3}
+  m_PrefabInstance: {fileID: 5103990431925747114}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10cadb6b8bbbf44b0bce2d66f6485110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8019639701825586407
 PrefabInstance:
   m_ObjectHideFlags: 0
