@@ -9,7 +9,14 @@ public class SelectorPane : MonoBehaviour
     public System.Action<int> callback;
 
     public void Select(int index) {
+        ResetSelection();
+        entries[index].Select();
         callback(index);
+    }
+    public void ResetSelection() {
+        foreach(SelectorPaneEntry entry in entries) {
+            entry.Unselect();
+        }
     }
 
     public void SetEntry(int index, Sprite sprite) {

@@ -20,6 +20,13 @@ public class SelectorPaneEntry : MonoBehaviour, IPointerEnterHandler, IPointerEx
             containsElement = true;
         }
 
+        Unselect();
+    }
+    public void Select() {
+        entry.sprite = selectedSprite;
+        selected = true;
+    }
+    public void Unselect() {
         entry.sprite = transparentSprite;
         selected = false;
     }
@@ -36,7 +43,6 @@ public class SelectorPaneEntry : MonoBehaviour, IPointerEnterHandler, IPointerEx
     }
     public void OnPointerClick(PointerEventData pointerEventData) {
         if (containsElement) {
-            selected = true;
             selectorPane.Select(index);
         }
     }

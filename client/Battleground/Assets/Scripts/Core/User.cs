@@ -26,23 +26,21 @@ public class User {
         this.musicVolume = 1f;
         this.soundVolume = 1f;
 
-        // TODO: remove this and implement a Team builder
-        if (this.username.Equals("Lor")) {
-            this.warriors = new Warrior[]{
-                new Warrior(Warrior.GLADIATOR),
-                new Warrior(Warrior.KNIGHT),
-                new Warrior(Warrior.NINJA),
-                new Warrior(Warrior.PUMPKIN),
-                new Warrior(Warrior.M_ZOMBIE)
-            };
-            this.items = new Item[]{
-                new Potion(Potion.HEAL),
-                new Potion(Potion.STRENGTH),
-                new Potion(Potion.WEAKNESS),
-                new Potion(Potion.RUNNER),
-                new Potion(Potion.AGING)
-            };
-        }
+        // Set the default team and items
+        this.warriors = new Warrior[]{
+            new Warrior(Warrior.GLADIATOR),
+            new Warrior(Warrior.KNIGHT),
+            new Warrior(Warrior.NINJA),
+            new Warrior(Warrior.PUMPKIN),
+            new Warrior(Warrior.M_ZOMBIE)
+        };
+        this.items = new Item[]{
+            new Potion(Potion.HEAL),
+            new Potion(Potion.STRENGTH),
+            new Potion(Potion.WEAKNESS),
+            new Potion(Potion.RUNNER),
+            new Potion(Potion.AGING)
+        };
     }
 
     public Player ToPlayer() {

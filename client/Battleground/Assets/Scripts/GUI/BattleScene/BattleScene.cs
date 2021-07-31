@@ -31,6 +31,9 @@ public class BattleScene : MonoBehaviour
 
         // Initialize indicatiors
         UpdateUIIndicators();
+
+        // Start music
+        FindObjectOfType<MusicManager>().Play("Battle");
     }
     void Update() {}
 
