@@ -10,8 +10,18 @@ public class Main : MonoBehaviour
 
     private float step = 1.2f; // The biggest, the faster the animation
     private float alpha = 0.0f; // The current alpha channel of the image
+    private bool foundUser = false;
 
     void Start() {
+        if (User.Exists()) {
+            User.currentUser = User.Load();
+            FindObjectOfType<MusicManager>().SetVolume(User.currentUser.musicVolume);
+            FindObjectOfType<AudioManager>().SetVolume(User.currentUser.soundVolume);
+
+            foundUser = true;
+        }
+        FindObjectOfType<MusicManager>().Play("Menu");
+
         StartCoroutine(GetUser());
     }
     void Update() {
@@ -37,8 +47,7 @@ public class Main : MonoBehaviour
         }
 
         // If the user exists
-        if (User.Exists()) {
-            User.currentUser = User.Load();
+        if (foundUser) {
             // Load the first menu
             SceneManager.LoadScene("Scenes/Main Menu");
         }

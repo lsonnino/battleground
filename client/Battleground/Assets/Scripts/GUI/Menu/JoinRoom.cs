@@ -27,4 +27,8 @@ public class JoinRoom : MonoBehaviour
             }));
         }
     }
+
+    public void Back() {
+        SceneManager.LoadScene("Scenes/Main Menu");
+    }
 }

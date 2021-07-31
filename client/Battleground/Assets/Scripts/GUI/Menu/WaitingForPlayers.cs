@@ -52,8 +52,15 @@ public class WaitingForPlayers : MonoBehaviour
 
             User.gameState = new GameState(User.game_id, players, thisPlayer);
 
+            // Destroy background
+            FindObjectOfType<MenuBackground>().Remove();
             // Load the next scene
             SceneManager.LoadScene("Scenes/BattleScene");
         }, () => {WaitTwoPlayers();})); // If still needs to wait, recall this function
+    }
+
+    public void Back() {
+        // TODO: remove player from the game
+        SceneManager.LoadScene("Scenes/Main Menu");
     }
 }

@@ -23,3 +23,14 @@ Tiles:
 UI:
 
 * https://opengameart.org/content/powers-icons
+* https://www.iconfinder.com/icons/3844435/home_house_icon
+* https://www.iconfinder.com/icons/1564529/mechanism_options_settings_configuration_setting_icon
+
+Sounds:
+
+* https://devassets.com/assets/2d-mega-pack/
+
+Musics:
+
+* https://www.fesliyanstudios.com/royalty-free-music/downloads-c/fantasy-music/27
+* https://muhammadriza.itch.io/free-fantasy-rpg-music-pack
