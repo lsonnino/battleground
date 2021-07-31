@@ -2,8 +2,6 @@
 
 ## Assets
 
-A lot of assets come from https://opengameart.org/ and from https://www.gameart2d.com/freebies.html
-
 Sprites:
 
 * https://www.gameart2d.com/free-dino-sprites.html
