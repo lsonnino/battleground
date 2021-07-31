@@ -15,6 +15,7 @@ public class EventsHandler : MonoBehaviour
     public PotionStatPanel potionStatPanel;
     public Sprite potionSprite;
     public IO io;
+    public WonLost wonLost;
 
     // Internal state to keep track of events
     private int turn;
@@ -389,6 +390,9 @@ public class EventsHandler : MonoBehaviour
             warriorsGUI.Remove(gui);
             // Remove him from the field
             this.gameMaster.field.RemoveWarrior(defender);
+
+            // Check if someone won
+            wonLost.CheckCondition(gameMaster.gameState);
         }
     }
 

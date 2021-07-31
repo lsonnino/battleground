@@ -107,7 +107,7 @@ public class Warrior
     }
     public void Damage(int amount) {
         this.hp -= amount;
-        if (this.hp < 0) {
+        if (this.hp <= 0) {
             this.hp = 0;
             this.alive = false;
         }
