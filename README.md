@@ -1,5 +1,7 @@
 # battleground
 
+This is the client executable of Battleground.
+
 ## Assets
 
 Sprites:
@@ -32,4 +34,6 @@ Musics:
 
 * https://www.fesliyanstudios.com/royalty-free-music/downloads-c/fantasy-music/27
 * https://muhammadriza.itch.io/free-fantasy-rpg-music-pack
+
+All other assets are of my own making.
 
