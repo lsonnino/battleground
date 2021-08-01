@@ -3,7 +3,12 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    void Start() {}
+    void Start() {
+        MusicManager music = FindObjectOfType<MusicManager>();
+        if (!music.playing.Equals("Menu")) {
+            music.Play("Menu");
+        }
+    }
     void Update() {}
 
     public void ToTeams() {

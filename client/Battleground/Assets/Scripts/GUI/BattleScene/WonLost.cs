@@ -16,7 +16,7 @@ public class WonLost : MonoBehaviour
     }
 
     void Update() {
-        if (triggered && Input.anyKey) {
+        if (triggered && wonText.color.a == 1 && Input.anyKey) {
             // TODO: remove the game
             // Return to main menu
             SceneManager.LoadScene("Scenes/Main Menu");

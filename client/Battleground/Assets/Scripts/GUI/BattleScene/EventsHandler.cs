@@ -259,7 +259,10 @@ public class EventsHandler : MonoBehaviour
         // Place the warrior
         this.gameMaster.field.MoveWarrior(warrior, toX, toY);
         // Keep track of him
-        if (isThisPlayer) { this.summoned++; }
+        if (isThisPlayer) {
+            this.summoned++;
+            this.map.AddPlayerID(new Vector3Int(toX, toY, 0));
+        }
 
         // Make him appear
         var placer = Instantiate(
@@ -327,7 +330,11 @@ public class EventsHandler : MonoBehaviour
         WarriorGUI gui = GetWarriorGUI(warrior);
         if (gui == null) { return; } // Should never happen
         // Keep track of him
-        if (gui.isThisPlayer) { this.moved++; }
+        if (gui.isThisPlayer) {
+            this.moved++;
+            this.map.RemovePlayerID(new Vector3Int(warrior.GetX(), warrior.GetY(), 0));
+            this.map.AddPlayerID(new Vector3Int(toX, toY, 0));
+        }
 
         // Start the movement graphically
         gui.Move(this.gameMaster.field.GetPath(
@@ -402,15 +409,20 @@ public class EventsHandler : MonoBehaviour
             // Get the WarriorGUI
             gui = GetWarriorGUI(defender);
             if (gui == null) { return; } // Should never happen
+            
             // Keep track of him
-            if (gui.isThisPlayer) { this.killed++; }
+            if (gui.isThisPlayer) {
+                this.killed++;
+                this.map.RemovePlayerID(new Vector3Int(defender.GetX(), defender.GetY(), 0));
+            }
+
+            // Remove him from the field
+            this.gameMaster.field.RemoveWarrior(defender);
 
             // Play the die animation
             gui.Die();
             // Remove him from the list
             warriorsGUI.Remove(gui);
-            // Remove him from the field
-            this.gameMaster.field.RemoveWarrior(defender);
 
             // Check if someone won
             wonLost.CheckCondition(gameMaster.gameState);

@@ -21,7 +21,8 @@
     }
     public Warrior GetWarriorAt(int x, int y) {
         for (int i=0 ; i < warriors.Length ; i++) {
-            if (warriors[i] != null && warriors[i].IsPlaced() && warriors[i].GetX() == x && warriors[i].GetY() == y) {
+            if (warriors[i] != null && warriors[i].IsPlaced() && warriors[i].IsAlive() &&
+                warriors[i].GetX() == x && warriors[i].GetY() == y) {
                 return warriors[i];
             }
         }

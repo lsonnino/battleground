@@ -9,8 +9,8 @@ public class MapEvents : MonoBehaviour
     public GameObject field;
 
     // Pads
-    public Tilemap padsTilemap;
-    public Tile padTileModel, selectedPadTileModel;
+    public Tilemap padsTilemap, playerIDTilemap;
+    public Tile padTileModel, selectedPadTileModel, playerIDTileModel;
     public List<Vector3Int> padTiles;
 
     // Zoom state
@@ -116,5 +116,12 @@ public class MapEvents : MonoBehaviour
             padsTilemap.SetTile(padTiles[0], null);
             padTiles.RemoveAt(0);
         }
+    }
+
+    public void AddPlayerID(Vector3Int pos) {
+        playerIDTilemap.SetTile(pos, playerIDTileModel);
+    }
+    public void RemovePlayerID(Vector3Int pos) {
+        playerIDTilemap.SetTile(pos, null);
     }
 }

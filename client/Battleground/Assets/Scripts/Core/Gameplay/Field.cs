@@ -98,6 +98,7 @@ public class Field
         if (warrior.IsPlaced()) {
             walkableState[warrior.GetX() - offsetX, warrior.GetY() - offsetY] =
                 walkable[warrior.GetX() - offsetX, warrior.GetY() - offsetY];
+            pathFind.UpdateGrid(walkableState);
         }
 
         warrior.Place(-1, -1);
