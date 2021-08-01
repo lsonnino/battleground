@@ -26,4 +26,10 @@ public class MainMenu : MonoBehaviour
     public void ToSettings() {
         SceneManager.LoadScene("Scenes/Settings");
     }
+    public void ToCredits() {
+        SceneManager.LoadScene("Scenes/About");
+    }
+    public void Quit() {
+        Application.Quit();
+    }
 }
