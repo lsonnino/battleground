@@ -44,7 +44,21 @@ public class User {
     }
 
     public Player ToPlayer() {
-        return new Player(this.player_id, this.username, this.warriors, this.items);
+        Warrior[] warriors = new Warrior[this.warriors.Length];
+        for (int i=0 ; i < this.warriors.Length ; i++) {
+            if (this.warriors[i] != null) {
+                warriors[i] = new Warrior(this.warriors[i]);
+            }
+        }
+        Item[] items = new Item[this.items.Length];
+        for (int i=0 ; i < this.items.Length ; i++) {
+            Item model = this.items[i];
+            if (model != null && model.GetType() == typeof(Potion)) {
+                items[i] = new Potion((Potion) model);
+            }
+            // TODO: only potions supported for now
+        }
+        return new Player(this.player_id, this.username, warriors, items);
     }
 
     /*

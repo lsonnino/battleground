@@ -19,6 +19,9 @@ public class EventsHandler : MonoBehaviour
     // Internal state to keep track of events
     private int turn;
     private GameState.Phase phase;
+    private int summoned; // The number of warriors that were summoned by the player
+    private int attacked, moved; // The number of warriors that moved/attacked this player's turn
+    private int killed; // The number of this player's warriors that were killed
 
     // Internal state to handle events
     public Warrior selectedWarrior;
@@ -31,6 +34,8 @@ public class EventsHandler : MonoBehaviour
         this.selectorPane.callback = index => this.SelectorPaneEntrySelected(index);
         this.phase = GameState.Phase.NONE;
         this.turn = -1;
+        this.summoned = this.killed = 0;
+        this.attacked = this.moved = 0;
 
         this.selectedWarrior = null;
         this.selectedItemIndex = -1;
@@ -119,12 +124,37 @@ public class EventsHandler : MonoBehaviour
         }
 
         this.turn = newTurn;
+        this.attacked = this.moved = 0;
     }
     private void NewPhaseEvent(GameState.Phase newPhase) {
         switch(newPhase) {
+            case GameState.Phase.MOVE_1:
+                if (gameMaster.gameState.IsThisPlayerTurn() && this.summoned == this.killed) {
+                    // Skip the phase
+                    this.io.NextPhase();
+                }
+                break;
+            case GameState.Phase.ATTACK:
+                if (gameMaster.gameState.IsThisPlayerTurn() && this.attacked == this.summoned - this.killed) { // No warriors can attack
+                    // Skip the phase
+                    this.io.NextPhase();
+                }
+                break;
+            case GameState.Phase.MOVE_2:
+                if (gameMaster.gameState.IsThisPlayerTurn() && this.moved == this.summoned - this.killed) { // No warriors can move
+                    // Skip the phase
+                    this.io.NextPhase();
+                }
+                break;
             case GameState.Phase.SUMMON:
                 if (gameMaster.gameState.IsThisPlayerTurn()) {
-                    SelectWarrior();
+                    if (this.summoned == Player.MAX_WARRIORS) { // No warriors to summon
+                        // Skip the phase
+                        this.io.NextPhase();
+                    }
+                    else {
+                        SelectWarrior();
+                    }
                 }
                 break;
             default:
@@ -228,6 +258,8 @@ public class EventsHandler : MonoBehaviour
     public void Summon(Warrior warrior, int toX, int toY, bool isThisPlayer) {
         // Place the warrior
         this.gameMaster.field.MoveWarrior(warrior, toX, toY);
+        // Keep track of him
+        if (isThisPlayer) { this.summoned++; }
 
         // Make him appear
         var placer = Instantiate(
@@ -294,6 +326,8 @@ public class EventsHandler : MonoBehaviour
         // Get the WarriorGUI
         WarriorGUI gui = GetWarriorGUI(warrior);
         if (gui == null) { return; } // Should never happen
+        // Keep track of him
+        if (gui.isThisPlayer) { this.moved++; }
 
         // Start the movement graphically
         gui.Move(this.gameMaster.field.GetPath(
@@ -353,6 +387,8 @@ public class EventsHandler : MonoBehaviour
         // Get the WarriorGUI
         WarriorGUI gui = GetWarriorGUI(attacker);
         if (gui == null) { return; } // Should never happen
+        // Keep track of him
+        if (gui.isThisPlayer) { this.attacked++; }
 
         // Play the animation
         gui.Attack();
@@ -366,6 +402,8 @@ public class EventsHandler : MonoBehaviour
             // Get the WarriorGUI
             gui = GetWarriorGUI(defender);
             if (gui == null) { return; } // Should never happen
+            // Keep track of him
+            if (gui.isThisPlayer) { this.killed++; }
 
             // Play the die animation
             gui.Die();
@@ -406,7 +444,7 @@ public class EventsHandler : MonoBehaviour
         this.openSelector = 2;
     }
     private void HideItemSelector() {
-        this.selectedWarrior = null;
+        this.selectedItemIndex = -1;
         this.openSelector = 0;
     }
     private void HandleItem(Vector3Int selectedTile) {
@@ -427,15 +465,14 @@ public class EventsHandler : MonoBehaviour
                 Item selectedItem = this.gameMaster.gameState.GetThisPlayer().GetItem(this.selectedItemIndex);
                 if (selectedItem.GetType() == typeof(Potion)) {
                     this.io.UseItem(hover, this.selectedItemIndex);
-                    HideItemSelector();
                     potionStatPanel.Hide();
                     this.gameMaster.gameState.GetThisPlayer().RemoveItem(this.selectedItemIndex);
-                    this.selectedItemIndex = -1;
+                    HideSelector();
                 }
             }
         }
         else if (Input.GetMouseButtonDown(0)) {
-            HideItemSelector();
+            HideSelector();
             this.selectedItemIndex = -1;
         }
     }

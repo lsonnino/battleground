@@ -4,6 +4,8 @@ using UnityEngine;
 public class MusicManager : MonoBehaviour
 {
     public Sound[] sounds;
+    [HideInInspector]
+    public string playing;
 
     [Range(0f, 1f)]
     public float masterVolume = 1f;
@@ -46,5 +48,7 @@ public class MusicManager : MonoBehaviour
         this.source.clip = s.clip;
         this.source.volume = this.masterVolume * s.volume;
         this.source.Play();
+
+        this.playing = name;
     }
 }

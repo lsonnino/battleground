@@ -16,6 +16,11 @@ public class WarriorGUI : MonoBehaviour
     void Start() {
         this.animator = this.GetComponent<Animator>();
         this.indexInPath = -1;
+
+        MusicManager music = FindObjectOfType<MusicManager>();
+        if (!music.playing.Equals("Menu")) {
+            music.Play("Menu");
+        }
     }
     void Update() {
         // Check if there is the need to move
